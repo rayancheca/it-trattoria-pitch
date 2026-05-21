@@ -1,26 +1,269 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/**
+ * IT — Italian Trattoria · global styles + design tokens
+ * Tailwind v4 uses CSS-based config via @theme.
+ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
+  /* Palette — see src/design/tokens.ts for the source of truth */
+  --color-monogram: #1F4D2E;
+  --color-monogram-soft: #2E6B45;
+  --color-monogram-tint: #E8EFE9;
+
+  --color-peperoncino: #C8362B;
+  --color-peperoncino-soft: #E76A60;
+  --color-bergamot: #E8B23A;
+  --color-bergamot-soft: #F2CD78;
+  --color-ionian: #1F4E55;
+  --color-ionian-soft: #3C7984;
+  --color-olive: #7A8348;
+
+  --color-carta: #F4EDE0;
+  --color-carta-deep: #E8DFCC;
+  --color-caffe: #1A1614;
+  --color-caffe-soft: #3A3530;
+  --color-caffe-mute: #6B655E;
+  --color-inchiostro: #0A0908;
+
+  --color-terracotta: #B5654A;
+  --color-basilico: #4A6840;
+
+  /* Type — display serif + body sans + mono */
+  --font-display: var(--font-instrument-serif), "Instrument Serif", "PP Editorial New", "GT Sectra", Georgia, serif;
+  --font-body: var(--font-geist-sans), "Geist", "Söhne", "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", "JetBrains Mono", "IBM Plex Mono", monospace;
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Radii — small, editorial */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Editorial spacing */
+  --spacing-section: clamp(4rem, 3rem + 5vw, 10rem);
+  --spacing-section-tight: clamp(2.5rem, 2rem + 2.5vw, 5rem);
+  --spacing-gutter: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+
+  /* Fluid type scale */
+  --text-hero: clamp(3.5rem, 1.5rem + 8vw, 9.5rem);
+  --text-display: clamp(2.5rem, 1.5rem + 4.5vw, 6rem);
+  --text-h1: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  --text-h2: clamp(1.5rem, 1.25rem + 1.25vw, 2.5rem);
+  --text-h3: clamp(1.25rem, 1.125rem + 0.625vw, 1.75rem);
+  --text-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+
+  /* Motion */
+  --ease-default: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Container widths */
+  --container-narrow: 64rem;
+  --container-wide: 80rem;
+  --container-edge: 96rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------- Base ---------- */
+
+@layer base {
+  html {
+    color-scheme: light;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-carta);
+    color: var(--color-caffe);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    text-underline-offset: 0.2em;
+  }
+
+  ::selection {
+    background-color: var(--color-peperoncino);
+    color: var(--color-carta);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+    font-feature-settings: "liga", "kern";
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+
+  .label-it {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-caffe-mute);
+    font-weight: 500;
+  }
+
+  .prose-editorial {
+    max-width: 38rem;
+    line-height: 1.7;
+    font-size: 1.0625rem;
+  }
+  .prose-editorial p + p {
+    margin-top: 1.2em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-monogram);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--color-caffe);
+    color: var(--color-carta);
+    transform: translateY(-150%);
+    transition: transform 200ms var(--ease-default);
+    z-index: 100;
+    font-size: 0.875rem;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------- Components ---------- */
+
+@layer components {
+  .container-edge {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+    max-width: var(--container-edge);
+  }
+  .container-wide {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+    max-width: var(--container-wide);
+  }
+  .container-narrow {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+    max-width: var(--container-narrow);
+  }
+
+  .section {
+    padding-block: var(--spacing-section);
+  }
+  .section-tight {
+    padding-block: var(--spacing-section-tight);
+  }
+
+  .hr-editorial {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-caffe-mute) 20%,
+      var(--color-caffe-mute) 80%,
+      transparent
+    );
+  }
+
+  .link-editorial {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: currentColor;
+    transition: text-decoration-color 200ms var(--ease-default);
+  }
+  .link-editorial:hover {
+    text-decoration-color: var(--color-peperoncino);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid currentColor;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-caffe-soft);
+  }
+  .chip-accent {
+    color: var(--color-peperoncino);
+    border-color: var(--color-peperoncino);
+  }
+
+  .dot-open {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-monogram);
+    box-shadow: 0 0 0 0 var(--color-monogram);
+    animation: pulse 2.4s var(--ease-out-expo) infinite;
+  }
+  .dot-closed {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-caffe-mute);
+  }
+
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0  color-mix(in oklab, var(--color-monogram), transparent 50%); }
+    70%  { box-shadow: 0 0 0 8px color-mix(in oklab, var(--color-monogram), transparent 100%); }
+    100% { box-shadow: 0 0 0 0  transparent; }
+  }
+}
+
+/* ---------- Utilities ---------- */
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  .num {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: multiply;
+    opacity: 0.45;
+  }
 }
