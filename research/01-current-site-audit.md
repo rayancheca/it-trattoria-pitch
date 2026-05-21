@@ -269,11 +269,11 @@ So while the surface is visually tighter, its SEO/social fundamentals are even t
 - Google Maps JS API (v=weekly), `AdvancedMarkerElement`
 
 **SECURITY — material finding:**
-A Google Maps JS API key is hard-coded into the page source:
+A Google Maps JS API key is hard-coded into the page source of `it-trattoria.com`:
 ```js
-const api_gm_key = "AIza...[REDACTED]";
+const api_gm_key = "AIza...[REDACTED — see live site source for actual value]";
 ```
-Client-side Maps keys are fine *if* they are HTTP-referrer-restricted and have a billing cap. Whether this one is properly scoped should be flagged to the client — an unrestricted key on a public WordPress page is an open invoice. (Do not, of course, attempt to use the key — that's not the job here. The finding is the exposure pattern itself.)
+Client-side Maps keys are fine *if* they are HTTP-referrer-restricted and have a billing cap. Whether this one is properly scoped should be flagged to the client — an unrestricted key on a public WordPress page is an open invoice. **The actual key value has been redacted from this repository to keep this audit document safe for sharing; the live key is visible in view-source on `it-trattoria.com` itself.** Flag to founders: rotate this key and add HTTP-referrer + billing-cap restrictions in Google Cloud Console.
 
 **Photography:** 5 `<img>` tags. Alt text is actually used here — `"IT Trattoria"`, `"Collins Avenue"`, `"Lincoln Road"`, `"Time square"`, `"It's about time !"` (1 empty alt). Better than the Elementor site. Imagery itself is small and could not be inspected at resolution — looks like location glamour shots used as map-card thumbnails.
 
