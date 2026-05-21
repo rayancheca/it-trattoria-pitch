@@ -29,7 +29,7 @@ export default function RegionsPage() {
         </div>
       </section>
 
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
             {REGIONS.map((r) => (
@@ -38,7 +38,7 @@ export default function RegionsPage() {
                   <div
                     className="absolute inset-0 transition-transform duration-700 ease-[var(--ease-default)] group-hover:scale-105"
                     style={{
-                      background: `linear-gradient(135deg, var(--color-${r.accentColor}) 0%, var(--color-cartaDeep) 100%)`,
+                      background: `linear-gradient(135deg, var(--color-${r.accentColor}) 0%, var(--color-carta-deep) 100%)`,
                     }}
                     aria-hidden
                   />

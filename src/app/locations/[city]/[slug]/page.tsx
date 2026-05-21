@@ -69,7 +69,7 @@ export default async function LocationDetailPage({ params }: PageProps) {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {featuredHere.map((item) => (
               <Link key={item.id} href={`/menu/${item.slug}`} className="group block">
-                <div className="aspect-square bg-cartaDeep rounded-sm overflow-hidden mb-4 relative">
+                <div className="aspect-square bg-carta-deep rounded-sm overflow-hidden mb-4 relative">
                   <div
                     className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700 ease-[var(--ease-default)]"
                     style={{ backgroundImage: `url('${item.photo?.src ?? ''}')` }}

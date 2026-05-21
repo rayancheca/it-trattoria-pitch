@@ -84,13 +84,13 @@ export function CateringForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-carta p-6 lg:p-10 rounded-sm border border-cartaDeep">
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-carta p-6 lg:p-10 rounded-sm border border-carta-deep">
       <ol className="flex flex-wrap gap-2 mb-8">
         {STEPS.map((s, i) => (
           <li
             key={s}
             className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs label-it ${
-              i === step ? 'bg-caffe text-carta' : i < step ? 'text-monogram border border-monogram' : 'text-caffe-mute border border-cartaDeep'
+              i === step ? 'bg-caffe text-carta' : i < step ? 'text-monogram border border-monogram' : 'text-caffe-mute border border-carta-deep'
             }`}
           >
             {String(i + 1).padStart(2, '0')} · {s}
@@ -104,7 +104,7 @@ export function CateringForm() {
           <Field label="Preferred location" error={errors.preferredLocation?.message}>
             <select
               {...register('preferredLocation')}
-              className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta"
+              className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta"
             >
               {LOCATIONS.map((l) => (
                 <option key={l.slug} value={l.slug}>{l.name}</option>
@@ -112,14 +112,14 @@ export function CateringForm() {
             </select>
           </Field>
           <Field label="Date" error={errors.date?.message}>
-            <input type="date" {...register('date')} className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+            <input type="date" {...register('date')} className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
           </Field>
           <Field label="Headcount" error={errors.headcount?.message}>
             <input
               type="number"
               min={1}
               {...register('headcount', { valueAsNumber: true })}
-              className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta num"
+              className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta num"
             />
           </Field>
         </fieldset>
@@ -129,16 +129,16 @@ export function CateringForm() {
         <fieldset className="space-y-5">
           <legend className="font-display text-2xl mb-3">Who&rsquo;s asking?</legend>
           <Field label="Your name" error={errors.name?.message}>
-            <input {...register('name')} className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+            <input {...register('name')} className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
           </Field>
           <Field label="Email" error={errors.email?.message}>
-            <input type="email" {...register('email')} className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+            <input type="email" {...register('email')} className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
           </Field>
           <Field label="Phone" error={errors.phone?.message}>
-            <input {...register('phone')} className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+            <input {...register('phone')} className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
           </Field>
           <Field label="Company (optional)" error={errors.companyName?.message}>
-            <input {...register('companyName')} className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+            <input {...register('companyName')} className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
           </Field>
         </fieldset>
       )}
@@ -147,14 +147,14 @@ export function CateringForm() {
         <fieldset className="space-y-5">
           <legend className="font-display text-2xl mb-3">Anything we should know?</legend>
           <Field label="Dietary notes" error={errors.dietaryNotes?.message}>
-            <input {...register('dietaryNotes')} placeholder="Vegetarian, gluten-free, allergies…" className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+            <input {...register('dietaryNotes')} placeholder="Vegetarian, gluten-free, allergies…" className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
           </Field>
           <Field label="Message (optional)" error={errors.message?.message}>
             <textarea
               {...register('message')}
               rows={5}
               placeholder="Setup, drop-off vs on-site, anything we&apos;d miss otherwise."
-              className="w-full p-3 border border-cartaDeep rounded-sm bg-carta resize-y"
+              className="w-full p-3 border border-carta-deep rounded-sm bg-carta resize-y"
             />
           </Field>
         </fieldset>

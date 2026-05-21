@@ -45,7 +45,7 @@ export default function CareersPage() {
       <section className="section bg-carta">
         <div className="container-edge">
           <p className="label-it mb-3">Open roles</p>
-          <ul className="divide-y divide-cartaDeep">
+          <ul className="divide-y divide-carta-deep">
             {ROLES.map((r) => (
               <li key={r.title} className="py-5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
                 <div>

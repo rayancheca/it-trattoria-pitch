@@ -7,7 +7,7 @@ export function FoundersTeaser() {
   const gio = founderBySlug('gio');
 
   return (
-    <section className="section bg-cartaDeep" aria-labelledby="founders-heading">
+    <section className="section bg-carta-deep" aria-labelledby="founders-heading">
       <div className="container-edge grid md:grid-cols-12 gap-10 lg:gap-16 items-center">
         {/* Portraits — side-by-side editorial */}
         <div className="md:col-span-6 grid grid-cols-2 gap-4">

@@ -33,14 +33,14 @@ export function FeaturedDishes() {
 
         {lead && (
           <article className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 lg:mb-28">
-            <div className="aspect-[4/5] bg-cartaDeep relative overflow-hidden rounded-sm">
+            <div className="aspect-[4/5] bg-carta-deep relative overflow-hidden rounded-sm">
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${lead.photo?.src ?? ''}')` }}
                 aria-hidden
               />
               {/* Fallback designed panel if no photo */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cartaDeep to-carta -z-10" aria-hidden />
+              <div className="absolute inset-0 bg-gradient-to-br from-carta-deep to-carta -z-10" aria-hidden />
               <div className="absolute top-4 left-4 chip chip-accent">
                 {regionBySlug(lead.region)?.name ?? lead.region}
               </div>
@@ -66,7 +66,7 @@ export function FeaturedDishes() {
                 </Link>
               </div>
               {lead.sourcing[0] && (
-                <p className="pt-4 mt-4 border-t border-cartaDeep text-sm text-caffe-mute">
+                <p className="pt-4 mt-4 border-t border-carta-deep text-sm text-caffe-mute">
                   <span className="label-it text-caffe-mute">Sourced</span>{' '}
                   <span className="ml-2 text-caffe-soft">
                     {lead.sourcing[0].ingredient} — {lead.sourcing[0].origin}
@@ -80,7 +80,7 @@ export function FeaturedDishes() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
           {rest.map((item) => (
             <Link key={item.id} href={`/menu/${item.slug}`} className="group block">
-              <div className="aspect-square bg-cartaDeep rounded-sm overflow-hidden mb-4 relative">
+              <div className="aspect-square bg-carta-deep rounded-sm overflow-hidden mb-4 relative">
                 <div
                   className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700 ease-[var(--ease-default)]"
                   style={{ backgroundImage: `url('${item.photo?.src ?? ''}')` }}

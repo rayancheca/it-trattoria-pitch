@@ -116,7 +116,7 @@ export function LocationHours({ location }: Props) {
         </div>
         <div>
           <table className="w-full text-sm">
-            <tbody className="divide-y divide-cartaDeep">
+            <tbody className="divide-y divide-carta-deep">
               {DAY_KEYS.map((day) => (
                 <tr key={day} className="py-2">
                   <td className="py-3 label-it text-caffe-soft">{weekdayLabel(day)}</td>
@@ -136,7 +136,7 @@ export function LocationHours({ location }: Props) {
 export function LocationNeighborhood({ location }: Props) {
   const { neighborhood } = location;
   return (
-    <section className="section-tight bg-cartaDeep" aria-labelledby="neighborhood-heading">
+    <section className="section-tight bg-carta-deep" aria-labelledby="neighborhood-heading">
       <div className="container-edge grid md:grid-cols-12 gap-10">
         <div className="md:col-span-5">
           <p className="label-it mb-3">Quartiere · Neighborhood</p>

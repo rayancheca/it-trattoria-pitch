@@ -46,8 +46,8 @@ export function JournalTeaser() {
         <div className="grid md:grid-cols-3 gap-10">
           {TEASERS.map((t) => (
             <article key={t.slug} className="group">
-              <div className="aspect-[5/4] bg-cartaDeep rounded-sm overflow-hidden mb-4 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-cartaDeep to-monogram-tint group-hover:scale-105 transition-transform duration-700 ease-[var(--ease-default)]" aria-hidden />
+              <div className="aspect-[5/4] bg-carta-deep rounded-sm overflow-hidden mb-4 relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-carta-deep to-monogram-tint group-hover:scale-105 transition-transform duration-700 ease-[var(--ease-default)]" aria-hidden />
                 <div className="absolute top-4 left-4 chip chip-accent bg-carta/90">
                   {t.kind} · {t.region}
                 </div>

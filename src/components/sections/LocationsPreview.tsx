@@ -48,7 +48,7 @@ export function LocationsPreview() {
                     </h3>
                     <p className="mt-2 text-caffe-soft">{meta.subtitle}</p>
                   </div>
-                  <ul className="divide-y divide-cartaDeep">
+                  <ul className="divide-y divide-carta-deep">
                     {locs.map((loc) => {
                       const status = statusFor(loc);
                       return (

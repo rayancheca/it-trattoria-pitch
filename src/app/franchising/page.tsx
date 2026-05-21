@@ -33,19 +33,19 @@ export default function FranchisingPage() {
             <input type="hidden" name="topic" value="franchising" />
             <label className="block">
               <span className="label-it block mb-2">Your name</span>
-              <input name="name" required className="w-full h-12 px-3 border border-cartaDeep rounded-sm" />
+              <input name="name" required className="w-full h-12 px-3 border border-carta-deep rounded-sm" />
             </label>
             <label className="block">
               <span className="label-it block mb-2">Email</span>
-              <input name="email" type="email" required className="w-full h-12 px-3 border border-cartaDeep rounded-sm" />
+              <input name="email" type="email" required className="w-full h-12 px-3 border border-carta-deep rounded-sm" />
             </label>
             <label className="block">
               <span className="label-it block mb-2">Region of interest</span>
-              <input name="region" required placeholder="Miami / Boston / Chicago / etc." className="w-full h-12 px-3 border border-cartaDeep rounded-sm" />
+              <input name="region" required placeholder="Miami / Boston / Chicago / etc." className="w-full h-12 px-3 border border-carta-deep rounded-sm" />
             </label>
             <label className="block">
               <span className="label-it block mb-2">A bit about you</span>
-              <textarea name="message" rows={5} required className="w-full p-3 border border-cartaDeep rounded-sm resize-y" />
+              <textarea name="message" rows={5} required className="w-full p-3 border border-carta-deep rounded-sm resize-y" />
             </label>
             <button type="submit" className="h-12 px-6 bg-caffe text-carta rounded-sm font-medium hover:bg-monogram transition-colors">
               Submit inquiry

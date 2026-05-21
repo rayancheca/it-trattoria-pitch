@@ -112,7 +112,7 @@ export default async function JournalEntryPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-narrow flex flex-wrap justify-between gap-6">
           <Link href="/journal" className="link-editorial text-lg">← All journal pieces</Link>
           <Link href="/menu" className="link-editorial text-lg">See the menu →</Link>

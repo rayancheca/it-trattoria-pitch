@@ -28,7 +28,7 @@ export default function PrivateEventsPage() {
         </div>
       </section>
 
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge">
           <p className="label-it mb-3">Available for buyouts</p>
           <ul className="divide-y divide-carta">

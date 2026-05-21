@@ -43,7 +43,7 @@ export default function PressPage() {
         </div>
       </section>
 
-      <section className="section bg-cartaDeep">
+      <section className="section bg-carta-deep">
         <div className="container-edge">
           <div className="bg-bergamot/20 border border-bergamot/40 rounded-sm p-6 mb-12">
             <p className="label-it text-peperoncino mb-2">Note for the founders</p>

@@ -64,7 +64,7 @@ export default async function RegionDetailPage({ params }: PageProps) {
       </section>
 
       {/* Long blurb */}
-      <section className="section bg-carta border-t border-cartaDeep">
+      <section className="section bg-carta border-t border-carta-deep">
         <div className="container-edge grid md:grid-cols-12 gap-10">
           <div className="md:col-span-5">
             <p className="label-it mb-3">La regione</p>
@@ -101,7 +101,7 @@ export default async function RegionDetailPage({ params }: PageProps) {
 
       {/* On the menu from this region */}
       {items.length > 0 && (
-        <section className="section bg-cartaDeep">
+        <section className="section bg-carta-deep">
           <div className="container-edge">
             <p className="label-it mb-3">Sul menù · On the menu</p>
             <h2

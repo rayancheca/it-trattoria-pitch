@@ -23,7 +23,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge grid lg:grid-cols-2 gap-10">
           <div>
             <p className="label-it mb-4">Call us directly</p>
@@ -43,10 +43,10 @@ export default function ContactPage() {
           </div>
           <div>
             <p className="label-it mb-4">Send a message</p>
-            <form action="/api/contact" method="post" className="bg-carta p-6 rounded-sm border border-cartaDeep space-y-4">
+            <form action="/api/contact" method="post" className="bg-carta p-6 rounded-sm border border-carta-deep space-y-4">
               <label className="block">
                 <span className="label-it block mb-2">Topic</span>
-                <select name="topic" className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta">
+                <select name="topic" className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta">
                   <option value="general">General question</option>
                   <option value="feedback">Feedback about a visit</option>
                   <option value="press">Press</option>
@@ -58,15 +58,15 @@ export default function ContactPage() {
               </label>
               <label className="block">
                 <span className="label-it block mb-2">Your name</span>
-                <input name="name" required className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+                <input name="name" required className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
               </label>
               <label className="block">
                 <span className="label-it block mb-2">Email</span>
-                <input name="email" type="email" required className="w-full h-12 px-3 border border-cartaDeep rounded-sm bg-carta" />
+                <input name="email" type="email" required className="w-full h-12 px-3 border border-carta-deep rounded-sm bg-carta" />
               </label>
               <label className="block">
                 <span className="label-it block mb-2">Message</span>
-                <textarea name="message" rows={5} required className="w-full p-3 border border-cartaDeep rounded-sm bg-carta resize-y" />
+                <textarea name="message" rows={5} required className="w-full p-3 border border-carta-deep rounded-sm bg-carta resize-y" />
               </label>
               <button type="submit" className="h-12 px-6 bg-caffe text-carta rounded-sm font-medium hover:bg-monogram transition-colors">
                 Send message

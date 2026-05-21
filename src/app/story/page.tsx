@@ -64,7 +64,7 @@ export default function StoryPage() {
       </section>
 
       {/* Paris 2014 */}
-      <section className="section bg-cartaDeep border-t border-carta">
+      <section className="section bg-carta-deep border-t border-carta">
         <div className="container-edge grid md:grid-cols-12 gap-10 items-start">
           <div className="md:col-span-4">
             <p className="label-it mb-3">2014 — Paris</p>
@@ -157,7 +157,7 @@ export default function StoryPage() {
           <div className="grid md:grid-cols-3 gap-10">
             {[renato, gio, max].filter((f): f is NonNullable<typeof f> => Boolean(f)).map((f) => (
               <article key={f.slug}>
-                <div className="aspect-[3/4] bg-cartaDeep rounded-sm overflow-hidden mb-5 relative">
+                <div className="aspect-[3/4] bg-carta-deep rounded-sm overflow-hidden mb-5 relative">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: `url('${f.portrait?.src ?? ''}')` }}

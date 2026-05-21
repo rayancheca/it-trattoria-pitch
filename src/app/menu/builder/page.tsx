@@ -49,7 +49,7 @@ export default function PastaBuilderPage() {
             <BuilderColumn label="3 · Extras" italian="Extra" items={ADDS} />
           </div>
 
-          <div className="mt-12 p-6 lg:p-10 bg-cartaDeep rounded-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="mt-12 p-6 lg:p-10 bg-carta-deep rounded-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <p className="label-it mb-2">Your build (preview)</p>
               <p className="font-display text-2xl tracking-tight">
@@ -82,7 +82,7 @@ function BuilderColumn({ label, italian, items }: BuilderColumnProps) {
         {items.map((i) => (
           <li
             key={i}
-            className="px-4 py-3 border border-cartaDeep rounded-sm hover:border-caffe hover:bg-monogram-tint cursor-pointer transition-colors"
+            className="px-4 py-3 border border-carta-deep rounded-sm hover:border-caffe hover:bg-monogram-tint cursor-pointer transition-colors"
             // dangerouslySetInnerHTML used only for &rsquo; entity safety; static strings only
             dangerouslySetInnerHTML={{ __html: i }}
           />

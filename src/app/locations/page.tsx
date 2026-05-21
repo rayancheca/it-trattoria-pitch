@@ -35,7 +35,7 @@ export default function LocationsHubPage() {
       {(Object.entries(CITIES) as [CitySlug, typeof CITIES[CitySlug]][]).map(([city, meta]) => {
         const locs = LOCATIONS.filter((l) => l.city === city);
         return (
-          <section key={city} className="section bg-cartaDeep border-t border-carta" aria-labelledby={`city-${city}`}>
+          <section key={city} className="section bg-carta-deep border-t border-carta" aria-labelledby={`city-${city}`}>
             <div className="container-edge">
               <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
                 <div>

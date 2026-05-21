@@ -62,7 +62,7 @@ export default function JournalIndexPage() {
         </div>
       </section>
 
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge">
           <ul className="divide-y divide-carta">
             {ENTRIES.map((e) => (

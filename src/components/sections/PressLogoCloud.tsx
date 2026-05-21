@@ -15,7 +15,7 @@ const PUBLICATIONS = [
 
 export function PressLogoCloud() {
   return (
-    <section className="section-tight bg-cartaDeep border-y border-carta" aria-labelledby="press-heading">
+    <section className="section-tight bg-carta-deep border-y border-carta" aria-labelledby="press-heading">
       <div className="container-edge">
         <p id="press-heading" className="label-it mb-8 text-center">
           Press · Stampa · <span className="text-caffe-mute italic normal-case tracking-normal text-xs">(placeholder targets — see /press)</span>

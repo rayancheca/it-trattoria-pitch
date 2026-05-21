@@ -65,7 +65,7 @@ function CategoryPage({ cat }: { cat: MenuCategory }) {
           <p className="mt-4 text-xl text-caffe-soft max-w-2xl text-pretty">{meta.blurb}</p>
         </div>
       </section>
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge">
           <ul className="divide-y divide-carta">
             {items.map((item) => (
@@ -138,7 +138,7 @@ function ItemPage({ slug }: { slug: string }) {
       <section className="section bg-carta">
         <div className="container-edge grid md:grid-cols-12 gap-10 lg:gap-16 items-start">
           <div className="md:col-span-6">
-            <div className="aspect-[4/5] bg-cartaDeep rounded-sm overflow-hidden relative">
+            <div className="aspect-[4/5] bg-carta-deep rounded-sm overflow-hidden relative">
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${item.photo?.src ?? ''}')` }}
@@ -183,7 +183,7 @@ function ItemPage({ slug }: { slug: string }) {
       </section>
 
       {/* Sourcing */}
-      <section className="section bg-cartaDeep border-t border-carta">
+      <section className="section bg-carta-deep border-t border-carta">
         <div className="container-edge grid md:grid-cols-12 gap-10">
           <div className="md:col-span-4">
             <p className="label-it mb-3">Ingredienti · Sourcing</p>

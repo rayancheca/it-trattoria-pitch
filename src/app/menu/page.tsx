@@ -51,7 +51,7 @@ export default function MenuPage() {
         const items = MENU_ITEMS.filter((i) => i.category === cat);
         if (items.length === 0) return null;
         return (
-          <section key={cat} className="section bg-cartaDeep border-t border-carta" aria-labelledby={`cat-${cat}`}>
+          <section key={cat} className="section bg-carta-deep border-t border-carta" aria-labelledby={`cat-${cat}`}>
             <div className="container-edge">
               <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
                 <div>

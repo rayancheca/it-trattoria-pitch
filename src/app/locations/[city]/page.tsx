@@ -49,7 +49,7 @@ export default async function CityHubPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge grid md:grid-cols-2 gap-10">
           {locs.map((loc) => {
             const status = getOpenStatus(loc.hours, loc.timezone);

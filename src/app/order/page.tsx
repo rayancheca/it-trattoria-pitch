@@ -32,14 +32,14 @@ export default function OrderPage() {
       {(Object.entries(CITIES) as [CitySlug, typeof CITIES[CitySlug]][]).map(([city, meta]) => {
         const locs = LOCATIONS.filter((l) => l.city === city);
         return (
-          <section key={city} className="section-tight bg-cartaDeep border-t border-carta">
+          <section key={city} className="section-tight bg-carta-deep border-t border-carta">
             <div className="container-edge">
               <h2 className="font-display text-3xl tracking-tight mb-6">{meta.name}</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {locs.map((loc) => {
                   const status = getOpenStatus(loc.hours, loc.timezone);
                   return (
-                    <div key={loc.slug} className="bg-carta p-6 rounded-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-cartaDeep">
+                    <div key={loc.slug} className="bg-carta p-6 rounded-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-carta-deep">
                       <div>
                         <h3 className="font-display text-2xl tracking-tight">{loc.shortName}</h3>
                         <p className="mt-1 text-sm text-caffe-soft">{loc.address.line1}</p>

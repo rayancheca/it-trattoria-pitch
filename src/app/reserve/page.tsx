@@ -36,7 +36,7 @@ export default function ReservePage() {
         </div>
       </section>
 
-      <section className="section-tight bg-cartaDeep border-t border-carta">
+      <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge">
           <p className="label-it mb-3">Large groups (8+)</p>
           <p className="text-caffe-soft mb-6 max-w-prose">Call your nearest trattoria directly:</p>

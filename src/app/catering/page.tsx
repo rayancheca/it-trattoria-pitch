@@ -59,7 +59,7 @@ export default function CateringPage() {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {PACKAGES.map((p) => (
-              <article key={p.name} className="bg-cartaDeep p-6 lg:p-8 rounded-sm">
+              <article key={p.name} className="bg-carta-deep p-6 lg:p-8 rounded-sm">
                 <p className="label-it mb-2">Serves {p.serves}</p>
                 <h3 className="font-display text-2xl tracking-tight text-balance">{p.name}</h3>
                 <p className="mt-3 text-caffe-soft text-pretty">{p.blurb}</p>
@@ -71,7 +71,7 @@ export default function CateringPage() {
       </section>
 
       {/* Form */}
-      <section className="section bg-cartaDeep" aria-labelledby="inquire">
+      <section className="section bg-carta-deep" aria-labelledby="inquire">
         <div className="container-edge grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-5">
             <p className="label-it mb-3">Richiesta · Inquire</p>
