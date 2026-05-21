@@ -21,23 +21,25 @@ export function FoundersTeaser() {
           <motion.div style={{ y: y1 }} className="aspect-[3/4] bg-carta relative overflow-hidden rounded-sm">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${renato?.portrait?.src ?? '/images/menu/cacio-pepe.jpg'}')` }}
+              style={{ backgroundImage: `url('${renato?.portrait?.src ?? '/images/founders/renato.jpg'}')` }}
               aria-hidden
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-caffe/60 to-transparent" aria-hidden />
+            <div className="absolute inset-0 bg-gradient-to-t from-caffe/65 via-caffe/10 to-transparent" aria-hidden />
             <div className="absolute bottom-4 left-4 right-4">
               <p className="label-it text-carta drop-shadow">Renato</p>
+              <p className="text-xs text-carta/80 mt-1">Co-Founder · Calabria</p>
             </div>
           </motion.div>
           <motion.div style={{ y: y2 }} className="aspect-[3/4] bg-carta relative overflow-hidden rounded-sm mt-12 lg:mt-20">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${gio?.portrait?.src ?? '/images/menu/cappuccino.jpg'}')` }}
+              style={{ backgroundImage: `url('${gio?.portrait?.src ?? '/images/founders/gio.jpg'}')` }}
               aria-hidden
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-caffe/60 to-transparent" aria-hidden />
+            <div className="absolute inset-0 bg-gradient-to-t from-caffe/65 via-caffe/10 to-transparent" aria-hidden />
             <div className="absolute bottom-4 left-4 right-4">
               <p className="label-it text-carta drop-shadow">Gio</p>
+              <p className="text-xs text-carta/80 mt-1">Co-Founder · Calabria</p>
             </div>
           </motion.div>
         </div>

@@ -53,7 +53,7 @@ export function Reveal({
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: 'div' | 'p' | 'h2' | 'h3' | 'span' | 'li';
+  as?: 'div' | 'p' | 'h1' | 'h2' | 'h3' | 'span' | 'li';
 }) {
   const Motion = motion[As as keyof typeof motion] as typeof motion.div;
   return (

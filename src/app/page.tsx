@@ -6,6 +6,7 @@ import { StatsBar } from '@/components/sections/StatsBar';
 import { CalabriaTeaser } from '@/components/sections/CalabriaTeaser';
 import { LocationsPreview } from '@/components/sections/LocationsPreview';
 import { FoundersTeaser } from '@/components/sections/FoundersTeaser';
+import { BrandIllustrations } from '@/components/sections/BrandIllustrations';
 import { PressLogoCloud } from '@/components/sections/PressLogoCloud';
 import { JournalTeaser } from '@/components/sections/JournalTeaser';
 import { NewsletterCTA } from '@/components/sections/NewsletterCTA';
@@ -27,6 +28,7 @@ export default function HomePage() {
       <CalabriaTeaser />
       <LocationsPreview />
       <FoundersTeaser />
+      <BrandIllustrations />
       <JournalTeaser />
       <PressLogoCloud />
       <NewsletterCTA />
