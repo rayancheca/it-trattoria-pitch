@@ -1,21 +1,32 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { ArrowLink } from '@/components/ui/ArrowLink';
+import { ParallaxImage } from '@/components/ui/ParallaxImage';
+import { Reveal, StaggerChildren, StaggerItem } from '@/components/ui/MotionSection';
 import { featuredItems, formatPrice } from '@/data/menu';
 import { regionBySlug } from '@/data/regions';
 
 /**
- * Editorial featured dishes section. NOT a card grid. NOT three feature cards.
- * Magazine-style layout with one signature dish full-width + a row of others.
+ * Editorial featured-dish layout. Magazine spread, not a card grid.
+ *
+ * Pattern: section heading → one HERO dish (full-bleed parallax + big type
+ * paired with editorial copy and sourcing line) → four secondary dishes in a
+ * staggered fade-in row → arrow link to full menu.
  */
 export function FeaturedDishes() {
   const items = featuredItems().slice(0, 5);
   const lead = items[0];
   const rest = items.slice(1);
+  if (!lead) return null;
+
+  const leadRegion = regionBySlug(lead.region);
 
   return (
-    <section className="section bg-carta" aria-labelledby="featured-heading">
-      <div className="container-edge">
-        <div className="flex flex-wrap items-end justify-between gap-6 mb-12 lg:mb-16">
+    <section className="bg-carta" aria-labelledby="featured-heading">
+      <div className="container-edge section">
+        <Reveal as="div" className="flex flex-wrap items-end justify-between gap-6 mb-14 lg:mb-20">
           <div>
             <p className="label-it mb-3">Sul menù · On the menu</p>
             <h2
@@ -29,73 +40,74 @@ export function FeaturedDishes() {
           <ArrowLink href="/menu" className="text-lg">
             See the full menu
           </ArrowLink>
-        </div>
+        </Reveal>
+      </div>
 
-        {lead && (
-          <article className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 lg:mb-28">
-            <div className="aspect-[4/5] bg-carta-deep relative overflow-hidden rounded-sm">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${lead.photo?.src ?? ''}')` }}
-                aria-hidden
-              />
-              {/* Fallback designed panel if no photo */}
-              <div className="absolute inset-0 bg-gradient-to-br from-carta-deep to-carta -z-10" aria-hidden />
-              <div className="absolute top-4 left-4 chip chip-accent">
-                {regionBySlug(lead.region)?.name ?? lead.region}
-              </div>
-            </div>
-            <div className="space-y-6">
-              <p className="label-it">{lead.italianName}</p>
+      {/* HERO dish — full-bleed parallax image with overlay copy */}
+      <Link href={`/menu/${lead.slug}`} className="block group">
+        <div className="relative w-full overflow-hidden" style={{ height: '90svh', minHeight: 600 }}>
+          <ParallaxImage
+            src={lead.photo?.src ?? ''}
+            alt={lead.photo?.alt ?? lead.name}
+            intensity={15}
+            className="absolute inset-0"
+            overlay="bg-gradient-to-t from-caffe/85 via-caffe/40 to-transparent"
+          />
+          <div className="absolute inset-x-0 bottom-0 container-edge pb-12 lg:pb-20 text-carta">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-3xl"
+            >
+              <p className="label-it text-bergamot mb-3">{leadRegion?.name ?? lead.region}</p>
               <h3
-                className="font-display tracking-tight text-balance"
-                style={{ fontSize: 'var(--text-h1)' }}
+                className="font-display tracking-tight text-balance group-hover:text-bergamot transition-colors duration-500"
+                style={{ fontSize: 'var(--text-display)', lineHeight: 1 }}
               >
                 {lead.name}
               </h3>
-              <p className="text-lg text-caffe-soft leading-relaxed text-pretty max-w-prose">
+              <p className="mt-5 text-lg lg:text-xl text-carta/85 leading-relaxed text-pretty max-w-2xl">
                 {lead.longDescription ?? lead.description}
               </p>
-              <div className="flex items-center gap-6 pt-2">
-                <p className="num font-display text-3xl text-caffe">{formatPrice(lead.priceCents)}</p>
-                <Link
-                  href={`/menu/${lead.slug}`}
-                  className="link-editorial text-base"
-                >
-                  See sourcing &amp; ingredients
-                </Link>
+              <div className="mt-7 flex flex-wrap items-baseline gap-5">
+                <p className="num font-display text-4xl text-bergamot">{formatPrice(lead.priceCents)}</p>
+                {lead.sourcing[0] && (
+                  <p className="text-sm text-carta/65">
+                    <span className="label-it text-carta/60">Sourced</span>{' '}
+                    <span className="ml-2">{lead.sourcing[0].ingredient} · {lead.sourcing[0].origin}</span>
+                  </p>
+                )}
               </div>
-              {lead.sourcing[0] && (
-                <p className="pt-4 mt-4 border-t border-carta-deep text-sm text-caffe-mute">
-                  <span className="label-it text-caffe-mute">Sourced</span>{' '}
-                  <span className="ml-2 text-caffe-soft">
-                    {lead.sourcing[0].ingredient} — {lead.sourcing[0].origin}
-                  </span>
-                </p>
-              )}
-            </div>
-          </article>
-        )}
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-          {rest.map((item) => (
-            <Link key={item.id} href={`/menu/${item.slug}`} className="group block">
-              <div className="aspect-square bg-carta-deep rounded-sm overflow-hidden mb-4 relative">
-                <div
-                  className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700 ease-[var(--ease-default)]"
-                  style={{ backgroundImage: `url('${item.photo?.src ?? ''}')` }}
-                  aria-hidden
-                />
-              </div>
-              <p className="label-it mb-1">{regionBySlug(item.region)?.name ?? item.region}</p>
-              <h3 className="font-display text-2xl tracking-tight leading-tight text-balance">
-                {item.name}
-              </h3>
-              <p className="mt-2 text-sm text-caffe-soft text-pretty line-clamp-2">{item.description}</p>
-              <p className="mt-3 num text-caffe">{formatPrice(item.priceCents)}</p>
-            </Link>
-          ))}
+            </motion.div>
+          </div>
         </div>
+      </Link>
+
+      {/* Secondary row — staggered */}
+      <div className="container-edge section">
+        <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
+          {rest.map((item) => (
+            <StaggerItem key={item.id}>
+              <Link href={`/menu/${item.slug}`} className="group block">
+                <div className="aspect-[5/6] bg-carta-deep rounded-sm overflow-hidden mb-5 relative">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700 ease-[var(--ease-default)]"
+                    style={{ backgroundImage: `url('${item.photo?.src ?? ''}')` }}
+                    aria-hidden
+                  />
+                </div>
+                <p className="label-it mb-1">{regionBySlug(item.region)?.name ?? item.region}</p>
+                <h3 className="font-display text-2xl lg:text-3xl tracking-tight leading-tight text-balance group-hover:text-peperoncino transition-colors">
+                  {item.name}
+                </h3>
+                <p className="mt-2 text-sm text-caffe-soft text-pretty line-clamp-2">{item.description}</p>
+                <p className="mt-3 num text-caffe">{formatPrice(item.priceCents)}</p>
+              </Link>
+            </StaggerItem>
+          ))}
+        </StaggerChildren>
       </div>
     </section>
   );

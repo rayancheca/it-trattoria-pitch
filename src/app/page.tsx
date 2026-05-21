@@ -1,6 +1,8 @@
 import { pageMetadata } from '@/lib/seo';
 import { HeroEditorial } from '@/components/sections/HeroEditorial';
+import { MenuMarquee } from '@/components/sections/MenuMarquee';
 import { FeaturedDishes } from '@/components/sections/FeaturedDishes';
+import { StatsBar } from '@/components/sections/StatsBar';
 import { CalabriaTeaser } from '@/components/sections/CalabriaTeaser';
 import { LocationsPreview } from '@/components/sections/LocationsPreview';
 import { FoundersTeaser } from '@/components/sections/FoundersTeaser';
@@ -19,7 +21,9 @@ export default function HomePage() {
   return (
     <>
       <HeroEditorial />
+      <MenuMarquee />
       <FeaturedDishes />
+      <StatsBar />
       <CalabriaTeaser />
       <LocationsPreview />
       <FoundersTeaser />

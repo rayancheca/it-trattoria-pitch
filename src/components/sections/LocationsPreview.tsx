@@ -1,24 +1,26 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowUpRight, MapPin, Phone } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { MapPin } from 'lucide-react';
 import { LOCATIONS, CITIES, type Location } from '@/data/locations';
 import { getOpenStatus, formatRange } from '@/lib/hours';
 import { ArrowLink } from '@/components/ui/ArrowLink';
+import { Reveal, StaggerChildren, StaggerItem } from '@/components/ui/MotionSection';
 
 function statusFor(loc: Location) {
   return getOpenStatus(loc.hours, loc.timezone);
 }
 
 function locationHref(loc: Location): string {
-  return `/locations/${loc.city}/${loc.slug.replace(`${loc.city}-`, '')}`;
+  return `/locations/${loc.city}/${loc.slug.slice(loc.city.length + 1)}`;
 }
 
 export function LocationsPreview() {
   return (
-    <section className="section bg-carta" aria-labelledby="locations-heading">
+    <section className="bg-carta section" aria-labelledby="locations-heading">
       <div className="container-edge">
-        <div className="flex flex-wrap items-end justify-between gap-6 mb-12 lg:mb-16">
+        <Reveal as="div" className="flex flex-wrap items-end justify-between gap-6 mb-14 lg:mb-20">
           <div>
             <p className="label-it mb-3">Trovaci · Find us</p>
             <h2
@@ -34,29 +36,27 @@ export function LocationsPreview() {
           <ArrowLink href="/locations" className="text-lg">
             See all locations
           </ArrowLink>
-        </div>
+        </Reveal>
 
-        <div className="grid lg:grid-cols-2 gap-x-8 gap-y-16 lg:gap-y-20">
+        <div className="grid lg:grid-cols-2 gap-x-10 gap-y-16 lg:gap-y-20">
           {(Object.entries(CITIES) as ['miami-beach' | 'nyc', typeof CITIES[keyof typeof CITIES]][]).map(
             ([city, meta]) => {
               const locs = LOCATIONS.filter((l) => l.city === city);
               return (
-                <div key={city}>
+                <Reveal key={city} as="div">
                   <div className="mb-6">
-                    <h3 className="font-display text-4xl lg:text-5xl tracking-tight">
-                      {meta.name}
-                    </h3>
+                    <h3 className="font-display text-5xl lg:text-6xl tracking-tight">{meta.name}</h3>
                     <p className="mt-2 text-caffe-soft">{meta.subtitle}</p>
                   </div>
-                  <ul className="divide-y divide-carta-deep">
+                  <StaggerChildren className="divide-y divide-carta-deep">
                     {locs.map((loc) => {
                       const status = statusFor(loc);
                       return (
-                        <li key={loc.slug}>
-                          <Link href={locationHref(loc)} className="group block py-5">
+                        <StaggerItem key={loc.slug}>
+                          <Link href={locationHref(loc)} className="group block py-6">
                             <div className="flex items-start justify-between gap-4">
                               <div>
-                                <h4 className="font-display text-2xl tracking-tight group-hover:text-peperoncino transition-colors">
+                                <h4 className="font-display text-3xl tracking-tight group-hover:text-peperoncino transition-colors">
                                   {loc.shortName}
                                 </h4>
                                 <p className="mt-1 text-sm text-caffe-soft flex items-center gap-1.5">
@@ -76,15 +76,20 @@ export function LocationsPreview() {
                                 </p>
                               </div>
                             </div>
-                            <p className="mt-3 text-sm text-caffe-soft text-pretty">
+                            <motion.p
+                              initial={{ opacity: 0.7 }}
+                              whileHover={{ x: 4 }}
+                              transition={{ duration: 0.3 }}
+                              className="mt-3 text-sm text-caffe-soft text-pretty"
+                            >
                               {loc.neighborhood.note}
-                            </p>
+                            </motion.p>
                           </Link>
-                        </li>
+                        </StaggerItem>
                       );
                     })}
-                  </ul>
-                </div>
+                  </StaggerChildren>
+                </Reveal>
               );
             },
           )}
