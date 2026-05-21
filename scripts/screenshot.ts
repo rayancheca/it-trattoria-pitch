@@ -52,13 +52,27 @@ async function capture(browser: Browser, route: Route, viewport: (typeof VIEWPOR
   const context = await browser.newContext({
     viewport: { width: viewport.width, height: viewport.height },
     deviceScaleFactor: viewport.deviceScaleFactor,
-    reducedMotion: 'reduce',
+    // Allow motion (we want post-animation states); the production runtime
+    // still respects each user's prefers-reduced-motion via Framer Motion.
   });
   const page: Page = await context.newPage();
   try {
     await page.goto(`${BASE}${route.path}`, { waitUntil: 'networkidle', timeout: 30000 });
     // Let fonts settle
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(900);
+
+    // Scroll through the full page in chunks to trigger whileInView animations
+    // before the full-page screenshot is taken. Then return to top.
+    const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
+    const step = viewport.height * 0.7;
+    for (let y = 0; y < bodyHeight; y += step) {
+      await page.evaluate((v) => window.scrollTo({ top: v, behavior: 'instant' as ScrollBehavior }), y);
+      await page.waitForTimeout(220);
+    }
+    // Scroll back to top and let one more frame settle
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }));
+    await page.waitForTimeout(400);
+
     const outDir = join(OUT_ROOT, viewport.name);
     await mkdir(outDir, { recursive: true });
     const out = join(outDir, `${route.slug}.png`);
