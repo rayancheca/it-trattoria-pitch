@@ -3,7 +3,29 @@
 > Update this file at every significant decision point.
 
 ## Current phase
-**Phase 1 — Discovery & Competitive Research** (in progress)
+**READY FOR PITCH** — all six phases complete.
+
+## Ready for pitch — final summary
+
+| | |
+|---|---|
+| **Repo (private)** | https://github.com/rayancheca/it-trattoria-pitch |
+| **Deploy target** | Vercel — run `pnpm dlx vercel login && pnpm dlx vercel` from the repo root |
+| **Local run** | `pnpm install && pnpm dev` → http://localhost:3000 |
+| **Routes** | 70 prerendered |
+| **Screenshots** | 33 captures at desktop + mobile in `/pitch/screenshots/` |
+| **Build** | passes clean |
+| **Pitch deck** | `/PITCH.md` |
+| **Open items** | `/QUESTIONS.md` — 14 items, 4 critical |
+
+**Executive summary for the founders (paste-ready):**
+
+> The current it-trattoria.com is a 2014 WordPress site that — verified through forensic audit — is actively losing customers in the US. Lincoln Road's "Directions" link points to Collins Avenue's address. The New York page's meta description is entirely in French. The global locator shows 33 raw plugin placeholder strings live. Every English page is stamped `og:locale="fr_FR"` and zero `Restaurant` schema ships anywhere. We rebuilt the site end-to-end on Next.js 15 — 70 prerendered routes, all four US locations with live "Open now" indicators, per-location `Restaurant` JSON-LD, an editorial menu with named-producer sourcing on every dish, and a regional-Italy storytelling spine that no Italian counter-service competitor on the internet currently offers. The pitch deck, the working mockup, the research, the design system, and the production rollout plan are all in the repo. Open the README first.
+
+---
+
+## Phase 0 — Bootstrap (complete)
+- 2026-05-20: Project initialized at `/Users/rayankarimcheca/it-trattoria-pitch`
 
 ## Phase 0 — Bootstrap (complete)
 - 2026-05-20: Project initialized at `/Users/rayankarimcheca/it-trattoria-pitch`
