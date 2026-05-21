@@ -7,7 +7,7 @@
 1. **Founders' Calabrian hometown.** The brief says they're from Calabria but does not specify the town. Several public sources hint at Reggio Calabria or the Tropea/Ionian coast, but none I can independently verify. Need confirmation directly from Renato/Gio before publishing any "Da [Town], Calabria" copy.
 2. **Press section quotes.** All press quotes in the mockup are marked `[PLACEHOLDER — DO NOT PUBLISH UNTIL VERIFIED]`. Need either (a) real press hits from the founders, or (b) a Google/news search to gather actual mentions in Eater Miami, Time Out NY, Miami Herald, etc.
 3. **Photography rights.** The mockup uses photos pulled from the founders' own current site + Instagram and from carefully chosen Unsplash photographers. Before launch, the founders should commission a real photoshoot (art-direction notes are in `/design/04-photography.md`).
-4. **The fourth NYC location.** The brief lists 530 7th Ave and 390 5th Ave in NYC, but the current public site is inconsistent. Confirm both are open, hours, and which is the "flagship" for NYC if any.
+4. **The fourth NYC location — discrepancy.** The brief lists FOUR US locations (Collins, Lincoln Rd, 530 7th Ave, 390 5th Ave). The current live site (verified by R1 forensic audit) shows only **THREE**: Collins, Lincoln Rd, and one NYC "Times Square" page. The 530 7th Ave / 390 5th Ave split is not reflected on the live site. **The mockup needs to know which is true before public presentation.** Currently building for 4 (per the brief) but presenting Times Square as a unified "NYC Midtown" until confirmed.
 
 ## Operational
 
