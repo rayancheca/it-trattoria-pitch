@@ -11,7 +11,10 @@
 
 ## Operational
 
-5. **Vercel deployment.** Production deploy requires logging into Vercel from this machine (`pnpm dlx vercel login`). The mockup ships to a `*.vercel.app` URL once that's done. The Git repo + build are ready.
+5. **Vercel deployment.** ✅ **DONE.** Live at:
+   - Public: **https://it-trattoria-pitch.vercel.app**
+   - Private (Vercel team only, 401 for everyone else): https://it-trattoria-pitch-mbxfw1lvf-rayankarimcheca-7930s-projects.vercel.app
+   - Vercel project: `rayankarimcheca-7930s-projects/it-trattoria-pitch`
 6. **Mapbox token.** The location pages use Mapbox GL. A free-tier public token is needed in `.env.local` as `NEXT_PUBLIC_MAPBOX_TOKEN`. There is a fallback to Leaflet+OSM, but Mapbox renders look more on-brand.
 7. **Toast / Resy / OpenTable accounts.** The order/reserve flows are stubbed. For a real launch, we need to confirm which provider IT uses today (the current site uses an internal `/order/italian-trattoria` flow that looks self-hosted) and wire the bridge UI to the right deep links.
 8. **Domain strategy.** The brief explicitly says not to register `it-trattoria.com`. Long-term, the rebuild would replace the WordPress site behind that domain. We should ask the founders about DNS access and a migration window.

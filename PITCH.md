@@ -12,8 +12,9 @@
 | **The deliverable** | A working, deployable Next.js mockup of the new site |
 | **The engineer** | Rayan Karim Checa · Fordham University, Computer Science · VP, Fordham CS Society |
 | **Date** | May 2026 |
-| **Live mockup URL** | _Run `pnpm dlx vercel` against the repo — see `HANDOFF.md`. Listed in `/QUESTIONS.md #5`._ |
-| **GitHub** | _link to be added on push_ |
+| **Live mockup URL (public)** | **https://it-trattoria-pitch.vercel.app** |
+| **Internal preview URL (Vercel team only)** | https://it-trattoria-pitch-mbxfw1lvf-rayankarimcheca-7930s-projects.vercel.app |
+| **GitHub (private)** | https://github.com/rayancheca/it-trattoria-pitch |
 
 ---
 

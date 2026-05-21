@@ -3,6 +3,9 @@
 > A production-quality Next.js mockup for the US web presence rebuild of **IT — Italian Trattoria** — a French-Italian counter-service restaurant group with four trattorias across Miami Beach and Manhattan.
 > Built by **Rayan Karim Checa** as a pitch to win the engagement.
 
+**🌐 Live (public):** **https://it-trattoria-pitch.vercel.app**
+**🔒 Internal preview (Vercel team only):** https://it-trattoria-pitch-mbxfw1lvf-rayankarimcheca-7930s-projects.vercel.app
+
 ---
 
 ## What this is

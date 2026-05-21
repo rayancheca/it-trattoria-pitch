@@ -61,13 +61,31 @@ Translation strings live in `messages/{en,it,es}.json`. The English file is auth
 
 ## Deploying to Vercel
 
-1. `pnpm dlx vercel login`
-2. From the project root: `pnpm dlx vercel`
-3. Accept defaults (Next.js auto-detected)
-4. Add env vars in the Vercel dashboard:
-   - `NEXT_PUBLIC_MAPBOX_TOKEN` (required for maps)
-   - `NEXT_PUBLIC_SITE_URL` (canonical URL, e.g. `https://it-trattoria-pitch.vercel.app`)
-5. Subsequent pushes to `main` auto-deploy production
+**Already deployed.** Two URLs in production:
+
+- **Public (production alias):** https://it-trattoria-pitch.vercel.app — anyone can visit
+- **Private (preview hash URL):** https://it-trattoria-pitch-mbxfw1lvf-rayankarimcheca-7930s-projects.vercel.app — gated by Vercel Deployment Protection (HTTP 401 for non-team users). Sign in to Vercel as a team member to view.
+
+The Vercel project is `rayankarimcheca-7930s-projects/it-trattoria-pitch`.
+
+### To re-deploy after changes
+
+```bash
+vercel --prod --scope rayankarimcheca-7930s-projects
+```
+
+Or just push to `main` on GitHub — once you connect the repo in the Vercel dashboard (vercel.com → project → Settings → Git), every push auto-deploys.
+
+### Env vars to set in the Vercel dashboard before going truly live
+
+- `NEXT_PUBLIC_MAPBOX_TOKEN` — required for the location maps (free tier from mapbox.com)
+- `NEXT_PUBLIC_SITE_URL` — already defaults to `https://it-trattoria-pitch.vercel.app`; override only if you attach a real domain
+
+### Initial setup (already done — for reference)
+
+1. `vercel login` (interactive, opens browser, sign in with GitHub)
+2. From the project root: `vercel --prod --yes --scope <your-team-slug>`
+3. Vercel auto-detects Next.js; no `vercel.json` needed
 
 ## Stubs that need real integrations before public launch
 

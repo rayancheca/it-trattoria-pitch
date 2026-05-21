@@ -10,7 +10,8 @@
 | | |
 |---|---|
 | **Repo (private)** | https://github.com/rayancheca/it-trattoria-pitch |
-| **Deploy target** | Vercel — run `pnpm dlx vercel login && pnpm dlx vercel` from the repo root |
+| **Public production URL** | https://it-trattoria-pitch.vercel.app |
+| **Private preview URL (Vercel team only)** | https://it-trattoria-pitch-mbxfw1lvf-rayankarimcheca-7930s-projects.vercel.app |
 | **Local run** | `pnpm install && pnpm dev` → http://localhost:3000 |
 | **Routes** | 70 prerendered |
 | **Screenshots** | 33 captures at desktop + mobile in `/pitch/screenshots/` |
