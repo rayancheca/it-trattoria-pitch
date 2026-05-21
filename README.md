@@ -26,6 +26,21 @@ If the founders open the deployed URL on their phone in Miami Beach, the brand t
 
 **The implementation detail that wasn't obvious:** "Open now" indicators are computed live in the user's browser from the location's `BusinessHours` schedule and the location's IANA timezone (`America/New_York`). The same logic powers the route-aware sticky bottom-bar Order CTA — its copy swaps depending on whether you're on a Miami Beach page (`"Order from Collins"`), an NYC page, a Calabria region page (`"Order Calabrian"`), or the menu builder. None of the competitor sites I tore down do this. It's a small thing that signals attention to the format.
 
+## Motion & animation
+
+Backed by `/research/07-animation-patterns.md` — 12 award-winning restaurant sites studied for specific scroll/interaction moves, distilled into 10 named patterns. Currently implemented in `src/components/ui/{MotionSection,Marquee,ParallaxImage}.tsx`:
+
+- **Hero — full-viewport (`100svh`) with scroll-linked parallax** on the background photo, word-by-word headline reveal ("Fresh pasta." → "Real Italian." → "*No table.*" in bergamot italic), Y-translate + opacity fade as you scroll past, bouncing scroll cue at bottom-right.
+- **Ingredient marquee** — horizontal infinite scroll between hero and featured dishes ("Paccheri alla Calabrese · Tagliatelle al Ragù · N'duja · Cacio e Pepe · …"). Pauses on hover. Static under `prefers-reduced-motion`.
+- **Lead-dish parallax** — the first featured dish is a `90svh` full-bleed editorial moment with parallax-shifted background and overlay copy. Not a card grid.
+- **Animated stats counter** — 20+ trattorias / 11 years / 2 brothers / 4 US locations, each number counts up from 0 with expo-out easing when the row enters the viewport.
+- **Calabria scroll-linked region marquee** — the secondary regions ("Sicilia · Campania · Puglia …") drift horizontally on scroll inside the monogram-green section.
+- **Opposing-parallax founder portraits** — Renato's portrait drifts up while Gio's drifts down as you scroll past.
+- **Stagger reveals** everywhere — location lists, journal cards, secondary dishes use a `StaggerChildren` wrapper for sequential 60–80ms-staggered fade-ups.
+- **Newsletter glow reveal** — a soft monogram-green radial glow blooms behind the final CTA on viewport entry.
+
+Every animation respects `prefers-reduced-motion` (Framer Motion's `useReducedMotion` short-circuits parallax + marquee).
+
 ---
 
 ## Live workflow screenshots
