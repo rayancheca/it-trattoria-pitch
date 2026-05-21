@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testing
+coverage/
+*.lcov
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Research artifacts that may be heavy
+research/brand/photos-current/*.jpg
+research/brand/photos-current/*.png
+research/brand/photos-current/*.webp
+!research/brand/photos-current/.gitkeep
+
+# Screenshots (kept in repo, but ignore large WIP)
+pitch/screenshots/wip/
