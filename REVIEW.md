@@ -3,7 +3,67 @@
 > Update this file at every significant decision point.
 
 ## Current phase
-**READY FOR PITCH** — all six phases complete.
+**Phase 11 — Real data + aggressive UX overhaul** (in progress)
+
+### Agent C (Sweetgreen + Chipotle UX) — landed
+
+Full buildbook in `/research/12-sweetgreen-chipotle-ordering.md`. The 10 moves we ship:
+
+1. **Apple Pay first, full-width, above all card/email fields** — Sweetgreen + Chipotle; Apple HIG-backed; biggest single conversion lever
+2. **"Order again" rail above the menu** for returning users (Sweetgreen) — Baymard-validated "standing order" mental model; one-tap reorder
+3. **Right-side cart drawer with item thumbnails + sticky "Add a side?" upsell rail** (Sweetgreen)
+4. **Sticky bottom CTA inside item drawer showing live price** (e.g. "Add to bag — $18.50"), pulses when required choices complete (Sweetgreen)
+5. **Cart-icon scale-bump + count badge on add — no toast notification** (Sweetgreen restraint, not Shake Shack noise)
+6. **Chipotle-style dedicated pickup-time screen**: big ASAP card on top, "Schedule for later" expands to day chips + time-slot list
+7. **Stepped order tracker with pulsing active step + countdown** (already shipped — refine with countdown)
+8. **Single-page pasta builder, not multi-step wizard** (Chipotle's post-redesign learning)
+9. **Loyalty math + free-delivery-threshold progress bar** both visible in cart
+10. **"Forgot something? Add to your order" 90-second post-confirmation window** (Sweetgreen — converts without coercion)
+
+**Top 3 conversion movers:** Apple Pay first · Order Again rail · Sticky live-price CTA in modifier drawer
+
+**Do NOT copy:** Chipotle's auto-playing video hero with LTO overlay — kills LCP, fights brand voice. IT's hero stays still and editorial.
+
+**⭐ The unfair lane — beating Sweetgreen specifically:** Editorial culinary authority. Sweetgreen ships removed friction but cannot speak — every dish is a featureless customization grid. IT ships **region badges, DOP shields, the "non si fa" carbonara guard, wine pairings inline, "dal mercato oggi" daily-rotating market specials**. UX moves that require culinary voice and regional knowledge. No fast-casual chain can copy them without breaking their scale model.
+
+Waiting on A (real menu data), B (real images).
+
+### Agent D (3D + conversion design) — landed
+
+Full doc in `/research/13-3d-conversion-design.md`. The 12 moves we ship, ranked:
+
+1. **Scroll-scrubbed AVIF frame sequence** — "the pasta morph" hero (Blender-rendered hands shaping tagliatelle, frame-scrubbed on scroll)
+2. **Cursor-following 3D Vespa** — R3F hero signature, scroll rides it through page, parks as persistent nav (THE signature move)
+3. **Particle-driven espresso steam** — R3F + Perlin noise on menu page ⏩ (already built)
+4. **Sticky horizontal "Our Calabria"** — Fabbrica pattern, pinned section
+5. **Single-stroke SVG noodle/olive branch** threading the entire page (God of Noodles)
+6. **Cinema-mode card stacking** on menu — cards deal out of a deck
+7. **Two-layer parallax depth on hero** — CSS translateZ for faux-3D
+8. **Stripe-style GLSL gradient field** behind menu sections
+9. **Themed UI primitives** — spaghetti-fork loader, cutting-board empty cart, ravioli sliders
+10. **Magnetic CTAs + "+1 burst"** that flies the button to the cart icon (huge conversion move)
+11. **Scroll-driven count-ups** ("37 ordini oggi", "pasta fatta stamattina")
+12. **Clip-path page transitions** masking the next hero image preload
+
+### ⭐ Three signature 3D moments (brand identity)
+
+1. **The Vespa Scroll** — R3F cream Vespa, cursor steers, scroll rides it through page sections, parks in nav
+2. **The Pasta Morph** — AVIF frame sequence (pre-rendered Blender) scrubbed on scroll. Real-time 3D dough looks bad; pre-render is frame-perfect.
+3. **The Espresso Pour** — R3F espresso cup, hover triggers crema pour, click sends to cart ⏩ (steam scene partially built; needs hover→pour interaction + click-to-cart wire)
+
+### Stack: R3F + AVIF + Lottie (rejecting Spline)
+- R3F for Vespa + Espresso (cursor-reactive, in-repo, lazy)
+- AVIF sequence for Pasta Morph (frame-perfect)
+- Lottie for decorative primitives (loader, empty-cart, cart-burst badge)
+- Spline rejected (heavier ship, cloud dep, perf tuning)
+
+### Fail mode to avoid
+**Generic floating decorative 3D food** (rotating pizza, spinning burger, looping coffee cup). The corrective rule: every 3D element must (a) respond to user input in real time, (b) advance narrative only this brand can tell, or (c) drive a conversion micro-moment.
+
+Self-audit against my existing 3D scenes:
+- ✓ **Peperoncino** — cursor tilt → satisfies (a). Calabrian-specific → satisfies (b). Keep.
+- ✗ **PastaPlate** — passes cursor tilt but doesn't advance narrative or drive conversion. **REPLACE with the Vespa Scroll** which is the signature move.
+- ⚠️ **EspressoCup** — has steam (✓) but needs hover→pour interaction + click→add-to-cart wire to satisfy (c).
 
 ## Ready for pitch — final summary
 

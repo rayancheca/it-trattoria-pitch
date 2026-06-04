@@ -10,3 +10,4 @@ import { lazyScene } from './lazy';
 export const Peperoncino = lazyScene(() => import('./Peperoncino'));
 export const PastaPlate = lazyScene(() => import('./PastaPlate'));
 export const EspressoCup = lazyScene(() => import('./EspressoCup'));
+export const Vespa = lazyScene(() => import('./Vespa'));
