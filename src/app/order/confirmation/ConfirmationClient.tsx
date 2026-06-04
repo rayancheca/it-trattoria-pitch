@@ -6,8 +6,9 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Check, ChefHat, Clock, MapPin, Package, Phone, ShoppingBag } from 'lucide-react';
 import { LOCATIONS, type LocationSlug } from '@/data/locations';
-import { formatPrice } from '@/data/menu';
+import { formatPrice, MENU_ITEMS } from '@/data/menu';
 import { type CartLine, useCart } from '@/lib/cart/store';
+import { emitCartBurst } from '@/lib/cart/burst';
 
 interface StoredOrder {
   orderId: string;
@@ -243,6 +244,11 @@ export function ConfirmationClient() {
         </div>
       </section>
 
+      {/* "Forgot something?" 90-second add-to-order window — Sweetgreen pattern.
+          Converts without coercion: the kitchen hasn't fired the food yet, so
+          a customer can add a tiramisù or espresso while the timer is alive. */}
+      <ForgotSomething order={order} />
+
       {/* Cross-link */}
       <section className="section-tight bg-carta">
         <div className="container-edge flex flex-wrap items-center justify-between gap-4">
@@ -266,6 +272,94 @@ export function ConfirmationClient() {
         </div>
       </section>
     </>
+  );
+}
+
+function ForgotSomething({ order }: { order: StoredOrder }) {
+  const WINDOW_MS = 90 * 1000;
+  const [secondsLeft, setSecondsLeft] = useState(90);
+  const [addedSlugs, setAddedSlugs] = useState<Set<string>>(new Set());
+  const addItem = useCart((s) => s.addItem);
+
+  useEffect(() => {
+    const start = Date.now();
+    const tick = window.setInterval(() => {
+      const elapsed = Date.now() - start;
+      const remaining = Math.max(0, Math.ceil((WINDOW_MS - elapsed) / 1000));
+      setSecondsLeft(remaining);
+      if (remaining === 0) window.clearInterval(tick);
+    }, 500);
+    return () => window.clearInterval(tick);
+  }, []);
+
+  if (secondsLeft === 0) return null;
+
+  // Suggest 3 items the customer didn't already order, prioritizing dolce + bevande
+  const purchasedIds = new Set(order.lines.map((l) => l.itemId));
+  const suggestions = MENU_ITEMS
+    .filter((i) => !i.aspirational && !purchasedIds.has(i.id))
+    .filter((i) => i.availableAt.includes(order.location))
+    .filter((i) => ['dolce', 'bevande'].includes(i.category))
+    .slice(0, 3);
+
+  if (suggestions.length === 0) return null;
+
+  return (
+    <section className="bg-bergamot/15 border-y border-bergamot/30">
+      <div className="container-edge py-6 lg:py-8">
+        <div className="flex items-baseline justify-between mb-4">
+          <div>
+            <p className="label-it text-peperoncino">Hai dimenticato qualcosa?</p>
+            <h2 className="font-display text-2xl lg:text-3xl tracking-tight mt-1">
+              Forgot something? Add to your order.
+            </h2>
+            <p className="mt-1 text-sm text-caffe-soft">
+              The kitchen hasn&rsquo;t fired yet — you have{' '}
+              <strong className="num text-peperoncino">{secondsLeft}s</strong> to add something.
+            </p>
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-3 gap-3">
+          {suggestions.map((item) => {
+            const isAdded = addedSlugs.has(item.slug);
+            return (
+              <button
+                key={item.id}
+                type="button"
+                disabled={isAdded}
+                onClick={(ev) => {
+                  addItem(item, 1);
+                  emitCartBurst(ev.clientX, ev.clientY);
+                  setAddedSlugs((prev) => new Set([...prev, item.slug]));
+                }}
+                className={`flex items-center gap-3 p-3 rounded-sm text-left transition-colors ${
+                  isAdded
+                    ? 'bg-monogram-tint border border-monogram'
+                    : 'bg-carta border border-carta-deep hover:border-caffe'
+                }`}
+              >
+                <div className="w-14 h-14 bg-carta-deep rounded-sm overflow-hidden shrink-0 relative">
+                  {item.photo && (
+                    <div
+                      className="absolute inset-0 bg-cover bg-center"
+                      style={{ backgroundImage: `url('${item.photo.src}')` }}
+                      aria-hidden
+                    />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-display text-base tracking-tight truncate">{item.name}</p>
+                  <p className="text-xs text-caffe-mute">{formatPrice(item.priceCents)}</p>
+                </div>
+                <span className={`text-sm font-medium shrink-0 ${isAdded ? 'text-monogram' : 'text-peperoncino'}`}>
+                  {isAdded ? '✓ Added' : '+ Add'}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -13,7 +13,8 @@ import {
   selectCartCount,
   type CartLine,
 } from '@/lib/cart/store';
-import { LOCATIONS } from '@/data/locations';
+import { recordOrder } from '@/lib/cart/history';
+import { LOCATIONS, type LocationSlug } from '@/data/locations';
 import { formatPrice } from '@/data/menu';
 
 const TIP_PRESETS = [0, 15, 18, 22] as const;
@@ -120,6 +121,17 @@ export function CheckoutClient() {
     // doing it here races against the `count === 0 → redirect` effect above.
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('it:last-order', JSON.stringify(payload));
+      // Also persist to localStorage so the Order Again rail can recall it.
+      if (locationSlug) {
+        recordOrder({
+          orderId,
+          placedAt: Date.now(),
+          location: locationSlug as LocationSlug,
+          fulfillment,
+          lines,
+          total,
+        });
+      }
     }
     router.push(`/order/confirmation?id=${orderId}`);
   }
@@ -199,6 +211,16 @@ export function CheckoutClient() {
                   };
                   if (typeof window !== 'undefined') {
                     sessionStorage.setItem('it:last-order', JSON.stringify(payload));
+                    if (locationSlug) {
+                      recordOrder({
+                        orderId,
+                        placedAt: Date.now(),
+                        location: locationSlug as LocationSlug,
+                        fulfillment,
+                        lines,
+                        total: payload.total,
+                      });
+                    }
                   }
                   await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(() => {});
                   router.push(`/order/confirmation?id=${orderId}`);
@@ -250,18 +272,12 @@ export function CheckoutClient() {
                 </button>
               </div>
 
-              <Field label="When" error={errors.pickupTime?.message}>
-                <select
-                  {...register('pickupTime')}
-                  className="w-full sm:w-72 h-12 px-3 border border-carta-deep rounded-sm bg-carta"
-                >
-                  <option value="asap">ASAP — ready in 12–15 min</option>
-                  <option value="+30">In 30 minutes</option>
-                  <option value="+45">In 45 minutes</option>
-                  <option value="+60">In 1 hour</option>
-                  <option value="+90">In 1h 30min</option>
-                </select>
-              </Field>
+              {/* Chipotle-style pickup-time picker — ASAP card on top, then
+                  "Schedule" expands to day chips + time-slot grid. */}
+              <PickupTimePicker
+                value={watch('pickupTime')}
+                onChange={(v) => setValue('pickupTime', v)}
+              />
             </fieldset>
 
             {/* Contact */}
@@ -492,6 +508,110 @@ function Row({ label, value }: { label: string; value: string }) {
     <div className="flex justify-between">
       <span className="text-caffe-soft">{label}</span>
       <span className="num">{value}</span>
+    </div>
+  );
+}
+
+interface PickupTimePickerProps {
+  value: string;
+  onChange: (v: string) => void;
+}
+
+function PickupTimePicker({ value, onChange }: PickupTimePickerProps) {
+  const isAsap = value === 'asap' || !value;
+  const [scheduledOpen, setScheduledOpen] = useState(!isAsap);
+  const [day, setDay] = useState<'today' | 'tomorrow'>('today');
+
+  // Build a row of 15-min slots from the next quarter-hour to close-time.
+  const slots = useMemo(() => {
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const round = Math.ceil((minutes + 30) / 15) * 15; // start ≥30min out, rounded to next 15
+    const out: { label: string; iso: string }[] = [];
+    const start = new Date(now);
+    start.setMinutes(round, 0, 0);
+    if (day === 'tomorrow') {
+      start.setDate(start.getDate() + 1);
+      start.setHours(11, 0, 0, 0);
+    }
+    for (let i = 0; i < 16; i++) {
+      const t = new Date(start.getTime() + i * 15 * 60 * 1000);
+      const h = t.getHours();
+      const m = t.getMinutes();
+      const period = h >= 12 ? 'pm' : 'am';
+      const h12 = h % 12 === 0 ? 12 : h % 12;
+      const label = m === 0 ? `${h12}${period}` : `${h12}:${String(m).padStart(2, '0')}${period}`;
+      out.push({ label, iso: t.toISOString() });
+    }
+    return out;
+  }, [day]);
+
+  return (
+    <div className="space-y-3">
+      <p className="label-it mb-1">When</p>
+      <button
+        type="button"
+        onClick={() => {
+          setScheduledOpen(false);
+          onChange('asap');
+        }}
+        className={`w-full p-5 border-2 rounded-sm text-left transition-colors ${
+          isAsap && !scheduledOpen
+            ? 'border-peperoncino bg-monogram-tint'
+            : 'border-carta-deep hover:border-caffe'
+        }`}
+      >
+        <div className="flex items-baseline justify-between">
+          <p className="font-display text-xl tracking-tight">ASAP</p>
+          <p className="text-xs label-it text-peperoncino">Ready in 12–15 min</p>
+        </div>
+        <p className="text-sm text-caffe-soft mt-1">We start prepping as soon as you confirm.</p>
+      </button>
+      <button
+        type="button"
+        onClick={() => setScheduledOpen((v) => !v)}
+        className={`w-full p-5 border-2 rounded-sm text-left transition-colors ${
+          scheduledOpen ? 'border-peperoncino bg-monogram-tint' : 'border-carta-deep hover:border-caffe'
+        }`}
+      >
+        <div className="flex items-baseline justify-between">
+          <p className="font-display text-xl tracking-tight">Schedule for later</p>
+          <p className="text-xs label-it text-caffe-mute">{scheduledOpen ? 'Picking a time' : 'Tap to pick'}</p>
+        </div>
+        <p className="text-sm text-caffe-soft mt-1">Choose a day and a time, up to 7 days out.</p>
+      </button>
+      {scheduledOpen && (
+        <div className="border border-carta-deep rounded-sm p-4 bg-carta space-y-4">
+          <div className="flex gap-2">
+            {(['today', 'tomorrow'] as const).map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => setDay(d)}
+                className={`h-10 px-4 rounded-sm text-sm font-medium transition-colors ${
+                  day === d ? 'bg-caffe text-carta' : 'border border-carta-deep hover:border-caffe'
+                }`}
+              >
+                {d === 'today' ? 'Today' : 'Tomorrow'}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-4 gap-2">
+            {slots.map((s) => (
+              <button
+                key={s.iso}
+                type="button"
+                onClick={() => onChange(s.iso)}
+                className={`h-10 text-sm border rounded-sm transition-colors num ${
+                  value === s.iso ? 'bg-caffe text-carta border-caffe' : 'border-carta-deep hover:border-caffe'
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

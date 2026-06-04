@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { pageMetadata, SITE } from '@/lib/seo';
 import { MENU_ITEMS, formatPrice, itemBySlug, CATEGORIES, type MenuCategory } from '@/data/menu';
 import { regionBySlug } from '@/data/regions';
+import { EspressoCup } from '@/components/three';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -52,18 +53,24 @@ export default async function MenuSlugPage({ params }: PageProps) {
 function CategoryPage({ cat }: { cat: MenuCategory }) {
   const meta = CATEGORIES[cat];
   const items = MENU_ITEMS.filter((i) => i.category === cat);
+  const isBevande = cat === 'bevande';
   return (
     <>
-      <section className="section bg-carta">
-        <div className="container-edge">
-          <p className="label-it mb-3">
-            <Link href="/menu" className="link-editorial">Menu</Link> · {meta.italianName}
+      <section className={`section relative overflow-hidden ${isBevande ? 'bg-caffe text-carta' : 'bg-carta'}`}>
+        <div className="container-edge relative">
+          <p className={`label-it mb-3 ${isBevande ? 'text-bergamot' : ''}`}>
+            <Link href="/menu" className={isBevande ? 'link-editorial text-carta/80' : 'link-editorial'}>Menu</Link> · {meta.italianName}
           </p>
           <h1 className="font-display tracking-tight text-balance" style={{ fontSize: 'var(--text-display)' }}>
             {meta.name}
           </h1>
-          <p className="mt-4 text-xl text-caffe-soft max-w-2xl text-pretty">{meta.blurb}</p>
+          <p className={`mt-4 text-xl max-w-2xl text-pretty ${isBevande ? 'text-carta/85' : 'text-caffe-soft'}`}>{meta.blurb}</p>
         </div>
+        {isBevande && (
+          <div className="absolute right-[4%] top-1/2 -translate-y-1/2 w-[36vw] max-w-[420px] aspect-square pointer-events-none lg:pointer-events-auto hidden md:block" aria-hidden>
+            <EspressoCup className="w-full h-full" />
+          </div>
+        )}
       </section>
       <section className="section-tight bg-carta-deep border-t border-carta">
         <div className="container-edge">

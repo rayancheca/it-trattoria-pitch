@@ -14,6 +14,7 @@ import { regionBySlug } from '@/data/regions';
 import { LOCATIONS } from '@/data/locations';
 import { useCart, selectCartCount, selectSubtotalCents } from '@/lib/cart/store';
 import { emitCartBurst } from '@/lib/cart/burst';
+import { readOrders, type PastOrder } from '@/lib/cart/history';
 import { getOpenStatus } from '@/lib/hours';
 
 const CATEGORY_ORDER: MenuCategory[] = ['aperitivo', 'al-banco', 'a-tavola', 'dolce', 'bevande'];
@@ -30,6 +31,8 @@ export function OrderClient() {
 
   const loc = LOCATIONS.find((l) => l.slug === locationSlug);
   const status = loc ? getOpenStatus(loc.hours, loc.timezone) : null;
+  const addItem = useCart((s) => s.addItem);
+  const openCart_ = useCart((s) => s.openCart);
 
   // Open the picker automatically on first visit if no location yet.
   useEffect(() => {
@@ -37,6 +40,30 @@ export function OrderClient() {
       openLocationPicker();
     }
   }, [hasHydrated, locationSlug, openLocationPicker]);
+
+  // Order Again — recall past orders from localStorage (returning users).
+  // Most-recent first; scoped to the picked location when one exists.
+  const [pastOrders, setPastOrders] = useState<PastOrder[]>([]);
+  useEffect(() => {
+    if (!hasHydrated) return;
+    const all = readOrders();
+    if (locationSlug) {
+      setPastOrders(all.filter((o) => o.location === locationSlug).slice(0, 3));
+    } else {
+      setPastOrders(all.slice(0, 3));
+    }
+  }, [hasHydrated, locationSlug, cartCount]);
+
+  function reorderPast(order: PastOrder, ev?: React.MouseEvent) {
+    // Re-add every line from the past order. Items that no longer exist are skipped.
+    for (const line of order.lines) {
+      const item = MENU_ITEMS.find((i) => i.id === line.itemId);
+      if (!item || item.aspirational) continue;
+      addItem(item, line.quantity);
+    }
+    if (ev) emitCartBurst(ev.clientX, ev.clientY);
+    openCart_();
+  }
 
   // Available items at this location. Aspirational (pitch-proposal) items
   // are filtered out of /order because they are not currently on IT's menu —
@@ -135,6 +162,57 @@ export function OrderClient() {
           </div>
         </div>
       </section>
+
+      {/* Order Again rail — for returning users with prior orders at this loc.
+          Sweetgreen pattern: removes the entire decision tree. */}
+      {hasHydrated && pastOrders.length > 0 && (
+        <section className="bg-carta-deep border-b border-carta" aria-labelledby="order-again-heading">
+          <div className="container-edge py-6 lg:py-8">
+            <div className="flex items-baseline justify-between mb-4">
+              <div>
+                <p className="label-it">Il solito · Order again</p>
+                <h2
+                  id="order-again-heading"
+                  className="font-display text-2xl lg:text-3xl tracking-tight mt-1"
+                >
+                  Your usual.
+                </h2>
+              </div>
+              <span className="text-xs text-caffe-mute italic">
+                Tap to add the whole order back to your cart
+              </span>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {pastOrders.map((p) => {
+                const dateStr = new Date(p.placedAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                });
+                const totalItems = p.lines.reduce((n, l) => n + l.quantity, 0);
+                const names = p.lines.slice(0, 3).map((l) => l.name).join(' · ');
+                const more = p.lines.length > 3 ? ` + ${p.lines.length - 3} more` : '';
+                return (
+                  <button
+                    key={p.orderId}
+                    type="button"
+                    onClick={(ev) => reorderPast(p, ev)}
+                    className="text-left p-4 bg-carta rounded-sm border border-carta-deep hover:border-caffe transition-colors group"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="label-it text-caffe-mute">{dateStr} · {totalItems} item{totalItems === 1 ? '' : 's'}</span>
+                      <span className="num text-sm">{formatPrice(p.total)}</span>
+                    </div>
+                    <p className="text-sm text-caffe-soft line-clamp-2">{names}{more}</p>
+                    <p className="mt-3 text-sm font-medium text-peperoncino group-hover:text-monogram transition-colors">
+                      Order again →
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Sticky category nav */}
       <div className="sticky top-16 lg:top-20 z-30 bg-carta border-b border-carta-deep">

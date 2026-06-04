@@ -74,6 +74,7 @@ function pickHeroPhoto(item: RawItem): string | null {
     'spaghetti-alfredo': '/images/real/menu/it-pasta.jpg',
     'spaghetti-genovese': '/images/real/menu/it-pasta.jpg',
     'rigatoni-vodka': '/images/real/menu/it-pasta.jpg',
+    'lasagna': '/images/real/menu/spaghetti-bolognaise.png',
     'lasagna-bolognese': '/images/real/menu/spaghetti-bolognaise.png',
     'penne-arrabbiata': '/images/real/menu/it-pasta.jpg',
     'penne-vodka': '/images/real/menu/it-pasta.jpg',
@@ -92,8 +93,14 @@ function pickHeroPhoto(item: RawItem): string | null {
 
     // Antipasti / aperitivo
     'antipasto-della-casa': '/images/menu/tagliere-calabrese.jpg',
+    'appetizer-antipasto-famiglia': '/images/menu/tagliere-calabrese.jpg',
     'stracciatella-focaccia': '/images/menu/burrata-prosciutto.jpg',
     'bruschetta': '/images/menu/burrata-prosciutto.jpg',
+
+    // Breakfast (Sage Menu)
+    'breakfast-avocado-toast': '/images/menu/burrata-prosciutto.jpg',
+    'breakfast-eggs-bacon': '/images/menu/cornetto.jpg',
+    'breakfast-truffle-scramble': '/images/menu/cornetto.jpg',
 
     // Salads
     'caesar-salad': '/images/menu/orecchiette.jpg',
@@ -107,19 +114,42 @@ function pickHeroPhoto(item: RawItem): string | null {
     'tiramisu-nutella': '/images/real/menu/restaurantguru-tiramisu.jpg',
     'tiramisu-classic': '/images/real/menu/toast-tiramisu-720.jpg',
     'cannoli': '/images/menu/cornetto.jpg',
+    'dolce-cannolo-pistacchio': '/images/menu/cornetto.jpg',
+    'dolce-cannolo-cioccolato': '/images/menu/cornetto.jpg',
+    'dolce-crostata-fragole': '/images/menu/cornetto.jpg',
     'crostata': '/images/menu/cornetto.jpg',
     'chocolate-ganache': '/images/menu/cornetto.jpg',
     'cornetto': '/images/menu/cornetto.jpg',
     'cornetto-nutella': '/images/menu/cornetto.jpg',
     'cornetto-vuoto': '/images/menu/cornetto.jpg',
 
-    // Bevande
+    // Bevande — coffees
     'espresso': '/images/menu/espresso.jpg',
     'cappuccino': '/images/menu/cappuccino.jpg',
     'macchiato': '/images/menu/espresso.jpg',
     'americano': '/images/menu/espresso.jpg',
     'latte': '/images/menu/cappuccino.jpg',
+    'coffee-double-espresso': '/images/menu/espresso.jpg',
+    'coffee-caffe-latte': '/images/menu/cappuccino.jpg',
+    'coffee-hot-tea': '/images/menu/cappuccino.jpg',
+
+    // Bevande — drinks
     'spritz-aperol': '/images/menu/spritz-calabrese.jpg',
+    'bevande-still-water': '/images/menu/espresso.jpg',
+    'bevande-sparkling-water': '/images/menu/espresso.jpg',
+    'bevande-molecola': '/images/menu/spritz-calabrese.jpg',
+    'bevande-limonata': '/images/menu/spritz-calabrese.jpg',
+    'bevande-aranciata': '/images/menu/spritz-calabrese.jpg',
+    'bevande-the-limone': '/images/menu/cappuccino.jpg',
+    'bevande-the-pesca': '/images/menu/cappuccino.jpg',
+
+    // Juices
+    'juice-orange': '/images/menu/spritz-calabrese.jpg',
+    'juice-ace': '/images/menu/spritz-calabrese.jpg',
+    'juice-power-punch': '/images/menu/spritz-calabrese.jpg',
+    'juice-detox': '/images/menu/spritz-calabrese.jpg',
+    'juice-peacefull': '/images/menu/spritz-calabrese.jpg',
+    'juice-sunset': '/images/menu/spritz-calabrese.jpg',
     'detox-juice': '/images/menu/spritz-calabrese.jpg',
     'peacefull-juice': '/images/menu/spritz-calabrese.jpg',
     'sunset-juice': '/images/menu/spritz-calabrese.jpg',
@@ -132,13 +162,19 @@ function pickHeroPhoto(item: RawItem): string | null {
   };
   if (realIT[slug]) return realIT[slug];
 
-  // Final fallback by subcategory/keyword
+  // Final fallback by subcategory/keyword — catches anything I didn't explicitly map
   const lc = slug.toLowerCase();
   if (lc.includes('pizza')) return '/images/real/menu/it-pizza.png';
-  if (lc.includes('pasta') || lc.includes('spaghetti') || lc.includes('rigatoni') || lc.includes('penne') || lc.includes('tagliatelle')) return '/images/real/menu/it-pasta.jpg';
+  if (lc.includes('pasta') || lc.includes('spaghetti') || lc.includes('rigatoni') || lc.includes('penne') || lc.includes('tagliatelle') || lc.includes('lasagna')) return '/images/real/menu/it-pasta.jpg';
   if (lc.includes('tiramisu')) return '/images/real/menu/toast-tiramisu-720.jpg';
+  if (lc.includes('cannolo') || lc.includes('cannoli') || lc.includes('crostata') || lc.includes('dolce')) return '/images/real/menu/toast-tiramisu-720.jpg';
+  if (lc.includes('breakfast') || lc.includes('cornetto') || lc.includes('toast')) return '/images/menu/cornetto.jpg';
+  if (lc.includes('cappuccino') || lc.includes('latte') || lc.includes('coffee') || lc.includes('tea') || lc.includes('the-')) return '/images/menu/cappuccino.jpg';
+  if (lc.includes('espresso') || lc.includes('macchiato') || lc.includes('americano')) return '/images/menu/espresso.jpg';
+  if (lc.includes('juice') || lc.includes('orange') || lc.includes('limonata') || lc.includes('aranciata') || lc.includes('spritz') || lc.includes('molecola') || lc.includes('water')) return '/images/menu/spritz-calabrese.jpg';
   if (lc.includes('salad') || lc.includes('insalata')) return '/images/menu/orecchiette.jpg';
-  return null;
+  if (lc.includes('antipasto') || lc.includes('tagliere')) return '/images/menu/tagliere-calabrese.jpg';
+  return '/images/real/menu/it-pasta.jpg'; // absolute last fallback so NOTHING is photoless
 }
 
 function camelize(arr: string[]): string {

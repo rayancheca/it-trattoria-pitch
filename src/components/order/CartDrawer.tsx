@@ -2,11 +2,17 @@
 
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect } from 'react';
-import { Minus, Plus, ShoppingBag, X } from 'lucide-react';
+import { useEffect, useMemo } from 'react';
+import { Minus, Plus, ShoppingBag, Sparkles, X } from 'lucide-react';
 import { useCart, selectSubtotalCents, selectCartCount } from '@/lib/cart/store';
+import { emitCartBurst } from '@/lib/cart/burst';
 import { LOCATIONS } from '@/data/locations';
-import { formatPrice } from '@/data/menu';
+import { formatPrice, MENU_ITEMS } from '@/data/menu';
+
+// Loyalty / free-delivery threshold (Sweetgreen pattern).
+// When subtotal crosses LOYALTY_THRESHOLD, the order earns a free aperitivo.
+const LOYALTY_THRESHOLD = 3500; // $35
+const FREE_DELIVERY_THRESHOLD = 4000; // $40
 
 export function CartDrawer() {
   const isOpen = useCart((s) => s.isCartOpen);
@@ -14,6 +20,7 @@ export function CartDrawer() {
   const lines = useCart((s) => s.lines);
   const updateQty = useCart((s) => s.updateQuantity);
   const removeLine = useCart((s) => s.removeLine);
+  const addItem = useCart((s) => s.addItem);
   const subtotal = useCart(selectSubtotalCents);
   const count = useCart(selectCartCount);
   const fulfillment = useCart((s) => s.fulfillment);
@@ -22,6 +29,42 @@ export function CartDrawer() {
   const openLocationPicker = useCart((s) => s.openLocationPicker);
 
   const loc = LOCATIONS.find((l) => l.slug === locationSlug);
+
+  // "Add a side?" upsell — looks at the current cart and suggests a
+  // complementary item the customer hasn't already added. We prefer a dolce
+  // or bevande since most pasta-only carts benefit from one.
+  const upsellItem = useMemo(() => {
+    if (lines.length === 0) return undefined;
+    const hasDolce = lines.some((l) => {
+      const it = MENU_ITEMS.find((i) => i.id === l.itemId);
+      return it?.category === 'dolce';
+    });
+    const hasBevande = lines.some((l) => {
+      const it = MENU_ITEMS.find((i) => i.id === l.itemId);
+      return it?.category === 'bevande';
+    });
+    if (!hasDolce) {
+      // Suggest the most-iconic dolce: Tiramisù Coffee
+      return MENU_ITEMS.find(
+        (i) => i.slug === 'tiramisu-coffee' && (!locationSlug || i.availableAt.includes(locationSlug)) && !i.aspirational,
+      );
+    }
+    if (!hasBevande) {
+      return MENU_ITEMS.find(
+        (i) => i.slug === 'cappuccino' && (!locationSlug || i.availableAt.includes(locationSlug)) && !i.aspirational,
+      );
+    }
+    return undefined;
+  }, [lines, locationSlug]);
+
+  // Loyalty math
+  const loyaltyProgress = Math.min(subtotal / LOYALTY_THRESHOLD, 1);
+  const loyaltyEarned = subtotal >= LOYALTY_THRESHOLD;
+  const loyaltyToGo = Math.max(0, LOYALTY_THRESHOLD - subtotal);
+  const freeDeliveryProgress = fulfillment === 'delivery'
+    ? Math.min(subtotal / FREE_DELIVERY_THRESHOLD, 1)
+    : 0;
+  const freeDeliveryToGo = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -181,6 +224,86 @@ export function CartDrawer() {
                 </ul>
               )}
             </div>
+
+            {/* Add a side? upsell — Sweetgreen "Add a side?" pattern */}
+            {lines.length > 0 && upsellItem && (
+              <div className="px-6 py-4 border-t border-carta-deep bg-monogram-tint">
+                <p className="label-it text-monogram mb-3 flex items-center gap-2">
+                  <Sparkles size={14} aria-hidden />
+                  Add a side?
+                </p>
+                <button
+                  type="button"
+                  onClick={(ev) => {
+                    addItem(upsellItem, 1);
+                    emitCartBurst(ev.clientX, ev.clientY);
+                  }}
+                  className="w-full flex items-center gap-3 p-3 bg-carta rounded-sm hover:bg-carta-deep transition-colors text-left group"
+                >
+                  <div className="w-12 h-12 bg-carta-deep rounded-sm overflow-hidden shrink-0 relative">
+                    {upsellItem.photo && (
+                      <div
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{ backgroundImage: `url('${upsellItem.photo.src}')` }}
+                        aria-hidden
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-display text-base tracking-tight truncate">{upsellItem.name}</p>
+                    <p className="text-xs text-caffe-mute">{upsellItem.description.split('.')[0]}</p>
+                  </div>
+                  <p className="num text-sm shrink-0 text-peperoncino font-medium group-hover:text-monogram transition-colors">
+                    + {formatPrice(upsellItem.priceCents)}
+                  </p>
+                </button>
+              </div>
+            )}
+
+            {/* Loyalty + free-delivery progress — Sweetgreen "rewards math" */}
+            {lines.length > 0 && (
+              <div className="px-6 py-4 border-t border-carta-deep bg-carta">
+                {loyaltyEarned ? (
+                  <p className="text-xs text-monogram font-medium mb-2 flex items-center gap-1.5">
+                    <Sparkles size={12} aria-hidden />
+                    You&rsquo;ve unlocked a free Spritz on the house — applied at pickup.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-xs text-caffe-soft mb-1.5">
+                      <strong className="text-caffe">{formatPrice(loyaltyToGo)}</strong> away from a free Spritz
+                    </p>
+                    <div className="h-1.5 bg-carta-deep rounded-full overflow-hidden mb-3">
+                      <motion.div
+                        className="h-full bg-bergamot rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${loyaltyProgress * 100}%` }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      />
+                    </div>
+                  </>
+                )}
+                {fulfillment === 'delivery' && (freeDeliveryToGo > 0 ? (
+                  <>
+                    <p className="text-xs text-caffe-soft mb-1.5">
+                      <strong className="text-caffe">{formatPrice(freeDeliveryToGo)}</strong> away from free delivery
+                    </p>
+                    <div className="h-1.5 bg-carta-deep rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-peperoncino rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${freeDeliveryProgress * 100}%` }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-xs text-peperoncino font-medium">
+                    🎉 You qualify for free delivery.
+                  </p>
+                ))}
+              </div>
+            )}
 
             {/* Footer */}
             {lines.length > 0 && (
