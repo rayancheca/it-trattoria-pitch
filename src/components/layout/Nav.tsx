@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, MapPin, ShoppingBag, X } from 'lucide-react';
 import { ITMonogram } from '@/components/brand/ITMonogram';
-import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
+import { useCart, selectCartCount } from '@/lib/cart/store';
+import { LOCATIONS } from '@/data/locations';
 
 const NAV_ITEMS = [
   { label: 'Menu', italian: 'Menù', href: '/menu' },
@@ -22,6 +23,13 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const hasHydrated = useCart((s) => s.hasHydrated);
+  const cartCount = useCart(selectCartCount);
+  const openCart = useCart((s) => s.openCart);
+  const openLocationPicker = useCart((s) => s.openLocationPicker);
+  const locationSlug = useCart((s) => s.locationSlug);
+  const loc = LOCATIONS.find((l) => l.slug === locationSlug);
+
   useEffect(() => {
     function onScroll() {
       setScrolled(window.scrollY > 24);
@@ -36,18 +44,19 @@ export function Nav() {
   }, [pathname]);
 
   const isHome = pathname === '/';
+  const opaque = scrolled || !isHome;
 
   return (
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
-        scrolled || !isHome ? 'bg-carta/90 backdrop-blur-md border-b border-carta-deep' : 'bg-transparent',
+        opaque ? 'bg-carta/90 backdrop-blur-md border-b border-carta-deep' : 'bg-transparent',
       )}
     >
       <a href="#main" className="skip-link">
         Skip to content
       </a>
-      <div className="container-edge flex h-16 lg:h-20 items-center justify-between">
+      <div className="container-edge flex h-16 lg:h-20 items-center justify-between gap-3">
         <Link href="/" className="flex items-center gap-2.5" aria-label="IT Trattoria, home">
           <ITMonogram size={36} />
           <span className="hidden sm:inline font-display text-[1.35rem] leading-none tracking-tight">
@@ -81,9 +90,33 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" variant="primary" className="hidden sm:inline-flex">
-            <Link href="/order">Order online</Link>
-          </Button>
+          {/* Location pill */}
+          <button
+            type="button"
+            onClick={openLocationPicker}
+            className="hidden md:inline-flex items-center gap-1.5 h-9 px-3 border border-carta-deep rounded-sm text-sm hover:border-caffe transition-colors"
+            aria-label="Change location"
+          >
+            <MapPin size={14} aria-hidden />
+            <span className="font-medium">{hasHydrated && loc ? loc.shortName : 'Pick location'}</span>
+          </button>
+
+          {/* Cart pill */}
+          <button
+            type="button"
+            onClick={openCart}
+            className="relative inline-flex items-center gap-1.5 h-9 px-3 bg-caffe text-carta rounded-sm text-sm font-medium hover:bg-monogram transition-colors"
+            aria-label={`Cart with ${cartCount} item${cartCount === 1 ? '' : 's'}`}
+          >
+            <ShoppingBag size={14} aria-hidden />
+            <span className="hidden sm:inline">Cart</span>
+            {hasHydrated && cartCount > 0 && (
+              <span className="num bg-bergamot text-caffe rounded-full min-w-[18px] h-[18px] inline-flex items-center justify-center text-[10px] font-bold px-1">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
           <button
             onClick={() => setOpen((v) => !v)}
             className="lg:hidden inline-flex items-center justify-center w-10 h-10 -mr-2"
@@ -97,11 +130,19 @@ export function Nav() {
       </div>
 
       {open && (
-        <div
-          id="mobile-nav"
-          className="lg:hidden border-t border-carta-deep bg-carta"
-        >
+        <div id="mobile-nav" className="lg:hidden border-t border-carta-deep bg-carta">
           <nav className="container-edge py-6 flex flex-col gap-1" aria-label="Mobile primary">
+            <button
+              type="button"
+              onClick={() => { openLocationPicker(); setOpen(false); }}
+              className="py-3 flex items-center justify-between border-b border-carta-deep text-left"
+            >
+              <span className="flex items-center gap-2 font-display text-2xl tracking-tight">
+                <MapPin size={18} aria-hidden />
+                {hasHydrated && loc ? loc.shortName : 'Pick a location'}
+              </span>
+              <span className="label-it">Change</span>
+            </button>
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}

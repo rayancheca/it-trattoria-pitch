@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import { Nav } from '@/components/layout/Nav';
 import { Footer } from '@/components/layout/Footer';
 import { StickyOrderBar } from '@/components/layout/StickyOrderBar';
+import { LocationPicker } from '@/components/order/LocationPicker';
+import { CartDrawer } from '@/components/order/CartDrawer';
+import { CartBar } from '@/components/order/CartBar';
 import { SITE } from '@/lib/seo';
 import './globals.css';
 
@@ -82,6 +85,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           {children}
         </main>
         <Footer />
+        <LocationPicker />
+        <CartDrawer />
+        <CartBar />
         <StickyOrderBar />
       </body>
     </html>

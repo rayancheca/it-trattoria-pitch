@@ -3,20 +3,18 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useCart, selectCartCount } from '@/lib/cart/store';
 
 /**
  * Mobile sticky bottom-bar Order CTA — appears after the user scrolls past
- * the hero. Copy is route-aware:
- *   /                → "Order online"
- *   /menu/...        → "Order from your nearest IT"
- *   /regions/calabria → "Order Calabrian"
- *   /locations/...   → "Order from this location"
- *   /catering        → hidden (form is the CTA on that page)
- *   /menu/builder    → "Send to checkout"
+ * the hero. Yields to CartBar when the user has items in their cart and to
+ * specific routes where it would just get in the way.
  */
 export function StickyOrderBar() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
+  const hasHydrated = useCart((s) => s.hasHydrated);
+  const cartCount = useCart(selectCartCount);
 
   useEffect(() => {
     function onScroll() {
@@ -27,14 +25,23 @@ export function StickyOrderBar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  if (pathname.startsWith('/catering') || pathname.startsWith('/private-events')) return null;
+  // Yield to CartBar when the user has items.
+  if (hasHydrated && cartCount > 0) return null;
+
+  // Hide on routes where it's not appropriate.
+  if (
+    pathname.startsWith('/catering') ||
+    pathname.startsWith('/private-events') ||
+    pathname.startsWith('/order') ||
+    pathname.startsWith('/menu')
+  ) {
+    return null;
+  }
 
   const copy = (() => {
-    if (pathname.startsWith('/menu/builder')) return { primary: 'Send to checkout', href: '/order' };
     if (pathname.startsWith('/regions/calabria')) return { primary: 'Order Calabrian', href: '/order' };
     if (pathname.startsWith('/regions/')) return { primary: 'Order this region', href: '/order' };
     if (pathname.startsWith('/locations/')) return { primary: 'Order from this location', href: '/order' };
-    if (pathname.startsWith('/menu')) return { primary: 'Order online', href: '/order' };
     return { primary: 'Order online', href: '/order' };
   })();
 
