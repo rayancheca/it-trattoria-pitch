@@ -127,13 +127,13 @@ export const LOCATIONS: Location[] = [
       parking: '17th Street Parking Garage, two blocks west.',
     },
     hero: {
-      src: '/images/locations/collins-hero.jpg',
-      alt: 'IT Trattoria Collins Avenue at golden hour, Art Deco hotels in background',
+      src: '/images/real/locations/collins/tripadvisor-front.jpg',
+      alt: 'IT Trattoria Collins Avenue storefront, daylight, palm-framed',
     },
     photos: [
-      { src: '/images/locations/collins-counter.jpg', alt: 'Counter with fresh pasta and pizza alla pala' },
-      { src: '/images/locations/collins-patio.jpg', alt: 'Outdoor seating facing Collins Avenue' },
-      { src: '/images/locations/collins-kitchen.jpg', alt: 'Open kitchen with pasta being made' },
+      { src: '/images/real/locations/collins/toast-storefront.jpg', alt: 'Overhead pizza and spritz on Sicilian-tile table' },
+      { src: '/images/real/locations/collins/miaminewtimes-pastanight.webp', alt: 'Pasta service during peak hours, Miami New Times shoot' },
+      { src: '/images/real/locations/collins/miaminewtimes-black-pepper.jpg', alt: 'Black pepper detail, Miami New Times editorial' },
     ],
     catering: true,
     privateEvents: true,
@@ -163,12 +163,13 @@ export const LOCATIONS: Location[] = [
       transit: 'A two-minute walk from Lincoln & Washington bus stops.',
     },
     hero: {
-      src: '/images/locations/lincoln-hero.jpg',
-      alt: 'IT Trattoria on pedestrian Lincoln Road, patio tables visible',
+      src: '/images/real/locations/lincoln/lincolnroad-dsc01615.jpg',
+      alt: 'IT Lincoln Road interior, backlit bottle-arch wall',
     },
     photos: [
-      { src: '/images/locations/lincoln-counter.jpg', alt: 'Counter with cornetti and pasta display' },
-      { src: '/images/locations/lincoln-patio.jpg', alt: 'Patio tables on Lincoln Road' },
+      { src: '/images/real/locations/lincoln/lincolnroad-top-select.jpeg', alt: 'Bar manager at the neon "spritz" sign' },
+      { src: '/images/real/locations/lincoln/lincolnroad-dsc01374.jpg', alt: 'Interior detail at Lincoln Road' },
+      { src: '/images/real/locations/lincoln/restaurantguru-pizzeria-food.jpg', alt: 'Pizzeria service at Lincoln Road' },
     ],
     catering: true,
     privateEvents: true,
@@ -197,12 +198,13 @@ export const LOCATIONS: Location[] = [
       transit: 'Penn Station (1·2·3 / A·C·E / NJ Transit / LIRR) – 4 min walk. Times Square (N·Q·R·W) – 7 min.',
     },
     hero: {
-      src: '/images/locations/7th-hero.jpg',
-      alt: 'IT Trattoria 530 7th Avenue storefront at lunch rush',
+      src: '/images/real/locations/7th/google-place-nyc.jpg',
+      alt: 'IT Trattoria 530 7th Avenue — yellow neon "breakfast caffè pasta pizza" storefront',
     },
     photos: [
-      { src: '/images/locations/7th-counter.jpg', alt: 'Counter line at peak lunch with fresh pasta visible' },
-      { src: '/images/locations/7th-window.jpg', alt: 'Garment District street view through the window' },
+      { src: '/images/real/locations/7th/it-ny-7th-times-square.jpg', alt: 'IT 7th Avenue street view from Times Square direction' },
+      { src: '/images/real/locations/7th/tripadvisor-2dc9b590.jpg', alt: 'Interior at peak service, Tripadvisor' },
+      { src: '/images/real/locations/7th/dudeoi-img3853.jpg', alt: 'Dining detail at 7th Avenue' },
     ],
     catering: true,
     privateEvents: false,
@@ -230,13 +232,16 @@ export const LOCATIONS: Location[] = [
       note: 'Two blocks from Bryant Park, opposite the Empire State. Italian breakfast from 7am.',
       transit: 'Bryant Park (B·D·F·M / 7) – 3 min walk. Herald Square (N·Q·R·W) – 5 min.',
     },
+    // 5th Ave is in Toast backend but pre-launch publicly — no photos yet. Using
+    // atmospheric IT shots until the store opens / a real shoot lands. Flagged in
+    // QUESTIONS.md for the founders to confirm opening date.
     hero: {
-      src: '/images/locations/5th-hero.jpg',
-      alt: 'IT Trattoria 390 5th Avenue at morning, Empire State Building in background',
+      src: '/images/real/atmosphere/it-trattoria-scaled.jpg',
+      alt: '[Placeholder — 5th Ave NYC pre-launch. Replace with real photo at open.] IT atmospheric shot',
     },
     photos: [
-      { src: '/images/locations/5th-counter.jpg', alt: 'Counter with cappuccino and cornetti' },
-      { src: '/images/locations/5th-window.jpg', alt: 'View of Empire State Building from the window' },
+      { src: '/images/real/atmosphere/instagram-strip.jpg', alt: '[Placeholder] IT brand atmosphere' },
+      { src: '/images/real/atmosphere/italian-trattoria-hero.jpg', alt: '[Placeholder] IT pasta service' },
     ],
     catering: true,
     privateEvents: false,

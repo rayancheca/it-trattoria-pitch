@@ -81,19 +81,23 @@ async function main() {
     }
   });
 
-  // ───── 6. Add an item to cart ─────
-  await step(page, 'Add Paccheri to cart', async () => {
-    // Find the row for "Paccheri alla Calabrese" and click Add
-    const row = page.locator('article:has(h3:has-text("Paccheri alla Calabrese"))').first();
+  // ───── 6. Add an item to cart (use real verified menu item) ─────
+  await step(page, 'Add Spaghetti Carbonara to cart', async () => {
+    // Scroll to A Tavola section so Carbonara is in view
+    await page.evaluate(() => {
+      const el = document.querySelector('#cat-a-tavola');
+      if (el) el.scrollIntoView({ block: 'start' });
+    });
+    await page.waitForTimeout(500);
+    const row = page.locator('article:has(h3:has-text("Spaghetti Carbonara"))').first();
     await row.locator('button:has-text("Add")').first().click();
-    // Cart drawer should auto-open
     await page.waitForSelector('[role="dialog"][aria-label="Your order"]', { timeout: 5000 });
   });
 
   // ───── 7. Cart shows the item + subtotal ─────
-  await step(page, 'Cart shows Paccheri', async () => {
+  await step(page, 'Cart shows Spaghetti Carbonara', async () => {
     const drawer = page.locator('[role="dialog"][aria-label="Your order"]');
-    await drawer.locator('text=Paccheri alla Calabrese').waitFor({ timeout: 5000 });
+    await drawer.locator('text=Spaghetti Carbonara').waitFor({ timeout: 5000 });
   });
 
   // ───── 8. Add another item via the +/- quantity ─────

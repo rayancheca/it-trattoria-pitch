@@ -55,43 +55,90 @@ const KNOWN_REGIONS = new Set([
   'emilia-romagna', 'lombardia', 'piemonte', 'veneto', 'liguria',
 ]);
 
-// Decide a real "hero" photo path for each item — Agent B will overwrite
-// these once the real-images extraction lands. For now use the best
-// existing Unsplash placeholder per category as a fallback.
+// Map each item to its best photo. Priority:
+// 1. Item's own photo field (set by Agent A)
+// 2. Real IT photo from /public/images/real/* (Agent B's haul)
+// 3. Fallback to original Unsplash placeholders
 function pickHeroPhoto(item: RawItem): string | null {
   if (item.photo) return item.photo;
-  // Best-effort matches against existing /public/images/menu/*.jpg
+
   const slug = item.slug;
-  const candidates: Record<string, string> = {
-    'spaghetti-pomodoro': '/images/menu/cacio-pepe.jpg',
-    'rigatoni-alla-siciliana': '/images/menu/tagliatelle-ragu.jpg',
-    'spaghetti-alfredo': '/images/menu/cacio-pepe.jpg',
-    'spaghetti-genovese': '/images/menu/trofie-pesto.jpg',
-    'rigatoni-vodka': '/images/menu/tagliatelle-ragu.jpg',
-    'spaghetti-carbonara': '/images/menu/cacio-pepe.jpg',
-    'rigatoni-bolognese': '/images/menu/tagliatelle-ragu.jpg',
-    'lasagna-bolognese': '/images/menu/tagliatelle-ragu.jpg',
-    'pizza-margherita': '/images/menu/margherita.jpg',
-    'pizza-prosciutto-burrata': '/images/menu/margherita.jpg',
-    'pizza-diavola': '/images/menu/spianata.jpg',
-    'pizza-pala-spianata-half': '/images/menu/spianata.jpg',
-    'pizza-pala-spianata-slice': '/images/menu/spianata.jpg',
+
+  // REAL IT photos (Agent B) — prefer these
+  const realIT: Record<string, string> = {
+    // Pasta — real IT pasta photos
+    'spaghetti-pomodoro': '/images/real/menu/it-pasta.jpg',
+    'spaghetti-carbonara': '/images/real/menu/spaghetti-bolognaise.png',
+    'rigatoni-bolognese': '/images/real/menu/spaghetti-bolognaise.png',
+    'rigatoni-alla-siciliana': '/images/real/menu/toast-menu-item-pasta.jpg',
+    'spaghetti-alfredo': '/images/real/menu/it-pasta.jpg',
+    'spaghetti-genovese': '/images/real/menu/it-pasta.jpg',
+    'rigatoni-vodka': '/images/real/menu/it-pasta.jpg',
+    'lasagna-bolognese': '/images/real/menu/spaghetti-bolognaise.png',
+    'penne-arrabbiata': '/images/real/menu/it-pasta.jpg',
+    'penne-vodka': '/images/real/menu/it-pasta.jpg',
+    'tagliatelle-bolognese': '/images/real/menu/spaghetti-bolognaise.png',
+
+    // Pizza — real IT pizza photos
+    'pizza-margherita': '/images/real/menu/it-pizza.png',
+    'pizza-prosciutto-burrata': '/images/real/menu/restaurantguru-pizza-1.jpg',
+    'pizza-diavola': '/images/real/menu/restaurantguru-pizza-c330.jpg',
+    'pizza-tartufo': '/images/real/menu/restaurantguru-pizza-1.jpg',
+    'pizza-quattro-formaggi': '/images/real/menu/restaurantguru-pizza-c330.jpg',
+    'pizza-pala-spianata-half': '/images/real/menu/restaurantguru-pizza-c330.jpg',
+    'pizza-pala-spianata-slice': '/images/real/menu/restaurantguru-pizza-c330.jpg',
+    'pizza-pala-margherita-half': '/images/real/menu/it-pizza.png',
+    'pizza-pala-margherita-slice': '/images/real/menu/it-pizza.png',
+
+    // Antipasti / aperitivo
     'antipasto-della-casa': '/images/menu/tagliere-calabrese.jpg',
     'stracciatella-focaccia': '/images/menu/burrata-prosciutto.jpg',
+    'bruschetta': '/images/menu/burrata-prosciutto.jpg',
+
+    // Salads
     'caesar-salad': '/images/menu/orecchiette.jpg',
-    'tiramisu-coffee': '/images/menu/tiramisu-classico.jpg',
-    'tiramisu-pistachio': '/images/menu/tiramisu-bergamot.jpg',
+    'mediterranea': '/images/menu/orecchiette.jpg',
+    'amore-verde': '/images/menu/orecchiette.jpg',
+
+    // Dolce — real IT tiramisu photos
+    'tiramisu-coffee': '/images/real/menu/toast-tiramisu-720.jpg',
+    'tiramisu-pistachio': '/images/real/menu/restaurantguru-tiramisu.jpg',
+    'tiramisu-strawberry': '/images/real/menu/restaurantguru-tiramisu.jpg',
+    'tiramisu-nutella': '/images/real/menu/restaurantguru-tiramisu.jpg',
+    'tiramisu-classic': '/images/real/menu/toast-tiramisu-720.jpg',
     'cannoli': '/images/menu/cornetto.jpg',
     'crostata': '/images/menu/cornetto.jpg',
+    'chocolate-ganache': '/images/menu/cornetto.jpg',
     'cornetto': '/images/menu/cornetto.jpg',
+    'cornetto-nutella': '/images/menu/cornetto.jpg',
+    'cornetto-vuoto': '/images/menu/cornetto.jpg',
+
+    // Bevande
     'espresso': '/images/menu/espresso.jpg',
     'cappuccino': '/images/menu/cappuccino.jpg',
+    'macchiato': '/images/menu/espresso.jpg',
+    'americano': '/images/menu/espresso.jpg',
+    'latte': '/images/menu/cappuccino.jpg',
     'spritz-aperol': '/images/menu/spritz-calabrese.jpg',
+    'detox-juice': '/images/menu/spritz-calabrese.jpg',
+    'peacefull-juice': '/images/menu/spritz-calabrese.jpg',
+    'sunset-juice': '/images/menu/spritz-calabrese.jpg',
+    'power-punch-juice': '/images/menu/spritz-calabrese.jpg',
+
+    // Aspirational
     'paccheri-alla-calabrese': '/images/menu/paccheri-calabrese.jpg',
     'tiramisu-bergamotto': '/images/menu/tiramisu-bergamot.jpg',
-    'spianata-pala-feature': '/images/menu/spianata.jpg',
+    'spianata-pala-feature': '/images/real/menu/restaurantguru-pizza-c330.jpg',
   };
-  return candidates[slug] ?? null;
+  if (realIT[slug]) return realIT[slug];
+
+  // Final fallback by subcategory/keyword
+  const lc = slug.toLowerCase();
+  if (lc.includes('pizza')) return '/images/real/menu/it-pizza.png';
+  if (lc.includes('pasta') || lc.includes('spaghetti') || lc.includes('rigatoni') || lc.includes('penne') || lc.includes('tagliatelle')) return '/images/real/menu/it-pasta.jpg';
+  if (lc.includes('tiramisu')) return '/images/real/menu/toast-tiramisu-720.jpg';
+  if (lc.includes('salad') || lc.includes('insalata')) return '/images/menu/orecchiette.jpg';
+  return null;
 }
 
 function camelize(arr: string[]): string {

@@ -42,7 +42,7 @@ export function HeroEditorial() {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(20,16,14,0.45) 0%, rgba(20,16,14,0.65) 50%, rgba(20,16,14,0.92) 100%), url('/images/hero/pasta-overhead.jpg')",
+              "linear-gradient(rgba(20,16,14,0.45) 0%, rgba(20,16,14,0.65) 50%, rgba(20,16,14,0.92) 100%), url('/images/real/atmosphere/it-trattoria-scaled.jpg')",
           }}
         />
       </motion.div>
