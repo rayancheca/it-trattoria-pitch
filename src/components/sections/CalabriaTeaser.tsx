@@ -39,7 +39,7 @@ export function CalabriaTeaser() {
               <br />
               <span className="italic">One pasta machine.</span>
               <br />
-              One region you can taste.
+              One region on every plate.
             </h2>
           </Reveal>
 
@@ -47,9 +47,11 @@ export function CalabriaTeaser() {
             <p className="text-lg lg:text-xl leading-relaxed text-carta/90 text-pretty">
               Renato and Gio Iera grew up in Calabria — the toe of Italy, where
               peperoncino goes on everything and bergamot grows nowhere else in the
-              world. Eleven years ago they opened a single counter in Paris. Today
-              you can taste their hometown in <span className="italic">paccheri alla calabrese</span>,
-              in tiramisù al bergamotto, in the spianata pizza they ate as kids.
+              world. Eleven years ago they opened a single counter in Paris. The
+              <span className="italic"> Spianata Calabrese</span> on the antipasto, the
+              same salami spread across the Diavola pizza — those are theirs.
+              The brothers&rsquo; bigger Calabrian repertoire is what the rebuild
+              argues for next.
             </p>
             <div className="flex flex-wrap gap-x-7 gap-y-3 pt-2">
               <ArrowLink href="/regions/calabria" className="text-carta text-lg">

@@ -131,9 +131,9 @@ export function HeroEditorial() {
           className="flex items-end justify-between gap-6 pb-2"
         >
           <div className="max-w-md">
-            <p className="label-it text-carta/60 mb-2">Only this week</p>
+            <p className="label-it text-carta/60 mb-2">Today on the menu</p>
             <p className="font-display italic text-2xl lg:text-3xl tracking-tight text-balance">
-              Tiramisù al bergamotto — the Calabrian one. From the brothers&rsquo; grandmother.
+              Spaghetti Carbonara — guanciale, pecorino, the four Romans done right.
             </p>
           </div>
           <motion.div

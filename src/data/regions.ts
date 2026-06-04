@@ -39,9 +39,9 @@ export const REGIONS: Region[] = [
     capital: 'Catanzaro',
     blurb: 'The toe of Italy. Where the food starts.',
     longBlurb:
-      'Mountains that fall into two seas. Peperoncino on every table. N\'duja you spread with a knife and a little fear. Bergamot you can\'t grow anywhere else. The brothers grew up here, and the IT menu reads more like a Calabrian kitchen than people often notice.',
-    signatureIngredients: ["N'duja", 'Peperoncino', 'Bergamot', 'Spianata calabrese', 'Pecorino crotonese'],
-    signatureDishes: ['Paccheri alla calabrese', 'Spianata pizza', 'Bergamot tiramisù', 'Swordfish involtini'],
+      'Mountains that fall into two seas. Peperoncino on every table. N\'duja you spread with a knife and a little fear. Bergamot you can\'t grow anywhere else. The brothers grew up here. Today on IT\'s plate it shows up as Spianata Calabrese on the antipasto and on the Diavola pizza — the brothers\' bigger Calabrian repertoire is what the rebuild proposes to surface.',
+    signatureIngredients: ["Spianata calabrese", 'Peperoncino', "N'duja", 'Bergamot', 'Pecorino crotonese'],
+    signatureDishes: ['Spianata Calabrese (on Diavola)', 'Spianata Pala', 'Antipasto della Casa with Spianata', 'Paccheri alla Calabrese (proposed)'],
     founderConnection: "Renato and Gio's home region.",
     accentColor: 'peperoncino',
   },

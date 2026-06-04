@@ -36,7 +36,7 @@ const EVENT_TYPES: EventType[] = [
 const INCLUDED = [
   'A dedicated event coordinator',
   'Custom printed menus with your event name',
-  'A welcome aperitivo per guest (Spritz Calabrese or alcohol-free)',
+  'A welcome aperitivo per guest (Aperol Spritz or alcohol-free)',
   'Family-style or plated service — your call',
   'Cake fee waived on outside dessert',
   'Coat check on request',

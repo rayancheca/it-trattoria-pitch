@@ -85,6 +85,11 @@ export default function MenuPage() {
                           {item.dietary.includes('spicy') && <span className="chip chip-accent">Spicy</span>}
                           {item.dietary.includes('vegetarian') && <span className="chip">Veg</span>}
                           {item.newThisWeek && <span className="chip chip-accent">New</span>}
+                          {item.aspirational && (
+                            <span className="chip border-bergamot text-bergamot" title="Pitch proposal — not yet on the menu">
+                              Pitch proposal
+                            </span>
+                          )}
                         </div>
                         <p className="mt-1 text-caffe-soft text-pretty max-w-2xl">{item.description}</p>
                       </div>

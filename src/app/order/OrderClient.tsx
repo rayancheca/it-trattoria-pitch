@@ -37,10 +37,14 @@ export function OrderClient() {
     }
   }, [hasHydrated, locationSlug, openLocationPicker]);
 
-  // Available items at this location (or all if no location yet, for browsing).
+  // Available items at this location. Aspirational (pitch-proposal) items
+  // are filtered out of /order because they are not currently on IT's menu —
+  // customers can't order what doesn't exist. They remain visible at /menu
+  // with a clear "Pitch proposal" badge.
   const availableItems = useMemo(() => {
-    if (!locationSlug) return MENU_ITEMS;
-    return MENU_ITEMS.filter((i) => i.availableAt.includes(locationSlug));
+    const orderable = MENU_ITEMS.filter((i) => !i.aspirational);
+    if (!locationSlug) return orderable;
+    return orderable.filter((i) => i.availableAt.includes(locationSlug));
   }, [locationSlug]);
 
   // Sticky category scroll spy.

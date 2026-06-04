@@ -63,7 +63,7 @@ const ENTRIES = [
     kind: 'Neighborhood',
     region: 'NYC',
     title: 'A walking tour of Italian Midtown',
-    dek: 'From the espresso at 5th Ave to the cacio e pepe near Penn Station. Fifteen minutes on foot.',
+    dek: 'From the espresso at 5th Ave to the carbonara near Penn Station. Fifteen minutes on foot.',
     date: '2026-04-08',
   },
   {

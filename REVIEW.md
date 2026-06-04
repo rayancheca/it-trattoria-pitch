@@ -26,7 +26,39 @@ Full buildbook in `/research/12-sweetgreen-chipotle-ordering.md`. The 10 moves w
 
 **⭐ The unfair lane — beating Sweetgreen specifically:** Editorial culinary authority. Sweetgreen ships removed friction but cannot speak — every dish is a featureless customization grid. IT ships **region badges, DOP shields, the "non si fa" carbonara guard, wine pairings inline, "dal mercato oggi" daily-rotating market specials**. UX moves that require culinary voice and regional knowledge. No fast-casual chain can copy them without breaking their scale model.
 
-Waiting on A (real menu data), B (real images).
+Waiting on B (real images).
+
+### ⚠️ Agent A (real menu data) — landed. Biggest finding of the project.
+
+Full report in `/research/10-real-menu-data.md` + machine-readable `/research/10-real-menu-data.json` (66 items, schema-compatible).
+
+**Headline:** 9 of my 17 mockup menu items are **INVENTED**:
+- paccheri-alla-calabrese (the homepage hero!)
+- tagliatelle-al-ragù · cacio-e-pepe · orecchiette-cime-di-rapa · trofie-al-pesto
+- panino-mortadella · arancini · spritz-calabrese · tiramisù-al-bergamotto
+
+**5 items REAL** (verified from Toast/Uber/Sage): pizza-alla-pala-margherita · pizza-alla-pala-spianata · tiramisu (Tiramisù Coffee) · espresso · cappuccino.
+**Close matches:** my `tagliere-calabrese` ≈ IT's `Antipasto della Casa`; my `burrata-prosciutto` ≈ `Pizza Prosciutto e Burrata`.
+
+**Top 5 cross-source verified items:**
+1. Margherita Pizza — $15.95 MIA / $16.95 NYC
+2. Spaghetti Carbonara — $21.95 everywhere
+3. Rigatoni Bolognese — $20.95 MIA / $21.95 NYC
+4. Stracciatella & Focaccia — $13.95 everywhere
+5. Antipasto della Casa — $21.95 everywhere
+
+**The strategic gap (huge):** IT's actual menu is broadly **Sicilian/Northern Italian crowd-pleaser fare** (Carbonara, Rigatoni Vodka, Bolognese, Margherita, Lasagna, Caesar). Only **4 Calabrian touchpoints** — Spianata in Diavola pizza, Spianata in antipasto, ½ Spianata Pala, Spianata Pala slice. **The brothers' Calabrian heritage is loud in marketing copy but quiet on the plate.**
+
+My "regional-Italy spine with Calabria as front door" thesis over-corrected. The mockup invented an entire Calabrian regional pasta program IT doesn't sell. Agent A's elegant handling: ships 63 verified items + 3 explicitly aspirational (`aspirational: true, verified: false`) so the pitch can argue for them.
+
+### Cascade required when I integrate
+1. Replace `src/data/menu.ts` with 63 verified + 3 aspirational
+2. Prices: NY $1 higher than Miami across most items
+3. Homepage `FeaturedDishes` — paccheri isn't real. Use Carbonara/Bolognese/Margherita as cross-source verified heroes.
+4. `MenuMarquee` — replace invented names with real dish names
+5. Journal entries — bergamot tiramisù + n'duja pieces become "items we're pitching for the rebuild," clearly marked
+6. Regional map — stays as design device but honest about what's on the plate today
+7. **PITCH.md** — reframe Calabrian thesis: brand story is bigger than the current plate. Sell rebuild as brand-AND-product collaboration. This is actually a STRONGER pitch.
 
 ### Agent D (3D + conversion design) — landed
 

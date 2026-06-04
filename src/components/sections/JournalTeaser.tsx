@@ -27,7 +27,7 @@ const TEASERS = [
     slug: 'a-walking-tour-of-italian-midtown',
     kind: 'Neighborhood',
     title: 'A walking tour of Italian Midtown',
-    dek: 'From the espresso at 5th Ave to the cacio e pepe near Penn Station. Fifteen minutes on foot.',
+    dek: 'From the espresso at 5th Ave to the carbonara near Penn Station. Fifteen minutes on foot.',
     region: 'NYC',
     accent: 'peperoncino',
     image: '/images/menu/cappuccino.jpg',
