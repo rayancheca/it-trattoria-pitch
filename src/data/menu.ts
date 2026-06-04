@@ -1402,20 +1402,24 @@ export function itemsByRegion(region: ItalianRegion): MenuItem[] {
 }
 
 export function featuredItems(): MenuItem[] {
-  // Featured = either explicitly featured OR the top verified, high-confidence dishes
+  // Featured = either explicitly featured OR the top verified, high-confidence
+  // dishes in PRIORITY ORDER (not MENU_ITEMS order). Carbonara leads because
+  // it's the top cross-source verified dish per Agent A's audit and the most
+  // editorially-strong signature item (the Roman pasta that travels well).
   const explicit = MENU_ITEMS.filter((i) => i.featured);
   if (explicit.length > 0) return explicit;
-  return MENU_ITEMS.filter((i) =>
-    [
-      'spaghetti-carbonara',
-      'rigatoni-bolognese',
-      'pizza-margherita',
-      'lasagna-bolognese',
-      'antipasto-della-casa',
-      'tiramisu-coffee',
-      'cappuccino',
-    ].includes(i.slug),
-  );
+  const order = [
+    'spaghetti-carbonara',
+    'pizza-margherita',
+    'rigatoni-bolognese',
+    'lasagna-bolognese',
+    'antipasto-della-casa',
+    'tiramisu-coffee',
+    'pizza-diavola',
+  ];
+  return order
+    .map((slug) => MENU_ITEMS.find((i) => i.slug === slug))
+    .filter((i): i is MenuItem => Boolean(i));
 }
 
 export function aspirationalItems(): MenuItem[] {

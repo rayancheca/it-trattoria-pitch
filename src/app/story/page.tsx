@@ -4,6 +4,7 @@ import { FOUNDERS } from '@/data/founders';
 import { ArrowLink } from '@/components/ui/ArrowLink';
 import { Reveal, StaggerChildren, StaggerItem } from '@/components/ui/MotionSection';
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
+import { Vespa } from '@/components/three';
 
 export const metadata = pageMetadata({
   title: 'Two Brothers, One Counter — Our Story',
@@ -75,8 +76,8 @@ const CHAPTERS: Chapter[] = [
 export default function StoryPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-caffe text-carta" style={{ minHeight: '70svh' }}>
+      {/* Hero with 3D Vespa — Phase-11 R&D Agent D's signature #2 move */}
+      <section className="relative bg-caffe text-carta overflow-hidden" style={{ minHeight: '85svh' }}>
         <div className="absolute inset-0">
           <ParallaxImage
             src="/images/story/calabria-village.jpg"
@@ -86,7 +87,11 @@ export default function StoryPage() {
             overlay="bg-gradient-to-b from-caffe/30 via-caffe/55 to-caffe"
           />
         </div>
-        <div className="container-edge relative section flex flex-col justify-end" style={{ minHeight: '70svh' }}>
+        {/* 3D Vespa — floats over the hero, cursor steers handlebars */}
+        <div className="absolute right-0 bottom-[8%] w-[55vw] max-w-[720px] aspect-[5/4] pointer-events-none lg:pointer-events-auto hidden md:block" aria-hidden>
+          <Vespa className="w-full h-full" />
+        </div>
+        <div className="container-edge relative section flex flex-col justify-end" style={{ minHeight: '85svh' }}>
           <Reveal as="p" className="label-it text-bergamot mb-4">
             Storia · Our story
           </Reveal>

@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 import { Menu, MapPin, ShoppingBag, X } from 'lucide-react';
 import { ITMonogram } from '@/components/brand/ITMonogram';
 import { cn } from '@/lib/utils';
 import { useCart, selectCartCount } from '@/lib/cart/store';
 import { LOCATIONS } from '@/data/locations';
+import { onCartBurst } from '@/lib/cart/burst';
 
 const NAV_ITEMS = [
   { label: 'Menu', italian: 'Menù', href: '/menu' },
@@ -29,6 +31,26 @@ export function Nav() {
   const openLocationPicker = useCart((s) => s.openLocationPicker);
   const locationSlug = useCart((s) => s.locationSlug);
   const loc = LOCATIONS.find((l) => l.slug === locationSlug);
+
+  // Cart icon scale-bump on burst arrival — Sweetgreen restraint pattern,
+  // not Shake Shack toasts.
+  const cartControls = useAnimation();
+  const cartCountControls = useAnimation();
+  useEffect(() => {
+    return onCartBurst(() => {
+      // ~800ms after the burst leaves the click point it arrives at the cart
+      window.setTimeout(() => {
+        cartControls.start({
+          scale: [1, 1.15, 1],
+          transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+        });
+        cartCountControls.start({
+          scale: [1, 1.4, 1],
+          transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+        });
+      }, 720);
+    });
+  }, [cartControls, cartCountControls]);
 
   useEffect(() => {
     function onScroll() {
@@ -101,21 +123,26 @@ export function Nav() {
             <span className="font-medium">{hasHydrated && loc ? loc.shortName : 'Pick location'}</span>
           </button>
 
-          {/* Cart pill */}
-          <button
+          {/* Cart pill — data-cart-target tells <CartBurst /> where to fly */}
+          <motion.button
             type="button"
             onClick={openCart}
-            className="relative inline-flex items-center gap-1.5 h-9 px-3 bg-caffe text-carta rounded-sm text-sm font-medium hover:bg-monogram transition-colors"
+            animate={cartControls}
+            data-cart-target=""
+            className="relative inline-flex items-center gap-1.5 h-9 px-3 bg-caffe text-carta rounded-sm text-sm font-medium hover:bg-monogram transition-colors will-change-transform"
             aria-label={`Cart with ${cartCount} item${cartCount === 1 ? '' : 's'}`}
           >
             <ShoppingBag size={14} aria-hidden />
             <span className="hidden sm:inline">Cart</span>
             {hasHydrated && cartCount > 0 && (
-              <span className="num bg-bergamot text-caffe rounded-full min-w-[18px] h-[18px] inline-flex items-center justify-center text-[10px] font-bold px-1">
+              <motion.span
+                animate={cartCountControls}
+                className="num bg-bergamot text-caffe rounded-full min-w-[18px] h-[18px] inline-flex items-center justify-center text-[10px] font-bold px-1 will-change-transform"
+              >
                 {cartCount}
-              </span>
+              </motion.span>
             )}
-          </button>
+          </motion.button>
 
           <button
             onClick={() => setOpen((v) => !v)}

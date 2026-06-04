@@ -6,6 +6,7 @@ import { REGIONS, regionBySlug, type ItalianRegion } from '@/data/regions';
 import { itemsByRegion, formatPrice } from '@/data/menu';
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
 import { Reveal, StaggerChildren, StaggerItem } from '@/components/ui/MotionSection';
+import { Peperoncino } from '@/components/three';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -48,10 +49,10 @@ export default async function RegionDetailPage({ params }: PageProps) {
 
   return (
     <>
-      {/* Hero — photo + overlay */}
+      {/* Hero — photo + overlay (+ 3D peperoncino on Calabria) */}
       <section
-        className="relative text-carta bg-caffe"
-        style={{ minHeight: '60svh' }}
+        className="relative text-carta bg-caffe overflow-hidden"
+        style={{ minHeight: isCalabria ? '80svh' : '60svh' }}
         aria-labelledby="region-heading"
       >
         {heroPhoto && (
@@ -62,6 +63,11 @@ export default async function RegionDetailPage({ params }: PageProps) {
             intensity={10}
             overlay={`bg-gradient-to-b ${isCalabria ? 'from-monogram/40 via-monogram/55 to-monogram' : 'from-caffe/40 via-caffe/55 to-caffe'}`}
           />
+        )}
+        {isCalabria && (
+          <div className="absolute right-[4%] bottom-[8%] w-[36vw] max-w-[440px] aspect-square pointer-events-none lg:pointer-events-auto hidden md:block" aria-hidden>
+            <Peperoncino className="w-full h-full" />
+          </div>
         )}
         <div
           className="container-edge relative section flex flex-col justify-end"

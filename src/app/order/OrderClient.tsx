@@ -13,6 +13,7 @@ import {
 import { regionBySlug } from '@/data/regions';
 import { LOCATIONS } from '@/data/locations';
 import { useCart, selectCartCount, selectSubtotalCents } from '@/lib/cart/store';
+import { emitCartBurst } from '@/lib/cart/burst';
 import { getOpenStatus } from '@/lib/hours';
 
 const CATEGORY_ORDER: MenuCategory[] = ['aperitivo', 'al-banco', 'a-tavola', 'dolce', 'bevande'];
@@ -239,12 +240,13 @@ function OrderItemRow({ item }: { item: MenuItem }) {
 
   const [expanded, setExpanded] = useState(false);
 
-  function onAdd() {
+  function onAdd(e: React.MouseEvent<HTMLButtonElement>) {
     if (!locationSlug) {
       openLocationPicker();
       return;
     }
     addItem(item, 1);
+    emitCartBurst(e.clientX, e.clientY);
   }
 
   return (

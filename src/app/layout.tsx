@@ -6,6 +6,7 @@ import { StickyOrderBar } from '@/components/layout/StickyOrderBar';
 import { LocationPicker } from '@/components/order/LocationPicker';
 import { CartDrawer } from '@/components/order/CartDrawer';
 import { CartBar } from '@/components/order/CartBar';
+import { CartBurst } from '@/components/order/CartBurst';
 import { SITE } from '@/lib/seo';
 import './globals.css';
 
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <LocationPicker />
         <CartDrawer />
         <CartBar />
+        <CartBurst />
         <StickyOrderBar />
       </body>
     </html>

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { useCart } from '@/lib/cart/store';
+import { emitCartBurst } from '@/lib/cart/burst';
 import type { MenuItem } from '@/data/menu';
 
 interface Props {
@@ -17,12 +18,14 @@ export function AddToCartButton({ item, size = 'md' }: Props) {
 
   const small = size === 'sm';
 
-  function onClick() {
+  function onClick(e: React.MouseEvent<HTMLButtonElement>) {
     if (!locationSlug) {
       openLocationPicker();
       return;
     }
     addItem(item, 1);
+    // +1 burst animation from the click point — flies to the cart icon
+    emitCartBurst(e.clientX, e.clientY);
   }
 
   return (

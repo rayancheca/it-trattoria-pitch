@@ -169,6 +169,67 @@ export function CheckoutClient() {
         <div className="container-edge grid lg:grid-cols-12 gap-10">
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="lg:col-span-7 space-y-10">
+            {/* Express checkout — Sweetgreen / Apple HIG pattern: Apple Pay
+                rendered first, full-width, above every other input. The
+                single highest conversion lever per Phase-11 UX research. */}
+            <section aria-label="Express checkout" className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="label-it">Express checkout</p>
+                <span className="text-[10px] text-caffe-mute uppercase tracking-wider">Skip the form</span>
+              </div>
+              <button
+                type="button"
+                onClick={async () => {
+                  // Apple Pay fast-path: bypass form validation, use minimal
+                  // guest contact, place order immediately.
+                  setIsSubmittingOrder(true);
+                  const orderId = `IT-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+                  const payload = {
+                    orderId,
+                    location: locationSlug,
+                    fulfillment,
+                    lines,
+                    subtotal,
+                    tax: taxCents,
+                    tip: Math.round(subtotal * 0.18),
+                    total: subtotal + taxCents + Math.round(subtotal * 0.18),
+                    customer: { name: 'Apple Pay guest', email: 'guest@apple-pay.itr', phone: '+15555550100', notes: '' },
+                    pickupTime: 'asap',
+                    paymentMethod: 'apple-pay' as const,
+                  };
+                  if (typeof window !== 'undefined') {
+                    sessionStorage.setItem('it:last-order', JSON.stringify(payload));
+                  }
+                  await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(() => {});
+                  router.push(`/order/confirmation?id=${orderId}`);
+                }}
+                className="w-full h-14 bg-caffe text-carta rounded-sm font-medium text-base flex items-center justify-center gap-2 hover:bg-monogram transition-colors"
+              >
+                <Apple size={20} aria-hidden />
+                <span>Pay with Apple Pay · {formatPrice(subtotal + taxCents + Math.round(subtotal * 0.18))}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  // Google Pay fast-path
+                  setValue('paymentMethod', 'google-pay');
+                  setValue('name', 'Google Pay guest');
+                  setValue('email', 'guest@google-pay.itr');
+                  setValue('phone', '+15555550100');
+                  handleSubmit(onSubmit)();
+                }}
+                className="w-full h-12 bg-carta-deep text-caffe rounded-sm font-medium text-sm flex items-center justify-center gap-2 hover:bg-carta hover:border-caffe border border-transparent transition-colors"
+              >
+                <Smartphone size={16} aria-hidden />
+                <span>Pay with Google Pay</span>
+              </button>
+              <div className="flex items-center gap-3 my-4">
+                <div className="flex-1 h-px bg-carta-deep" />
+                <span className="text-xs text-caffe-mute">or fill in the details below</span>
+                <div className="flex-1 h-px bg-carta-deep" />
+              </div>
+            </section>
+
             {/* Fulfillment + time */}
             <fieldset className="space-y-5">
               <legend className="label-it mb-2">01 · Fulfillment</legend>
