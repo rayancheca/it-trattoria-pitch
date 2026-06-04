@@ -119,8 +119,13 @@ function LocationCard({ loc, isCurrent, onPick }: CardProps) {
     <button
       type="button"
       onClick={onPick}
+      disabled={loc.preLaunch}
       className={`group text-left rounded-sm overflow-hidden border-2 transition-colors ${
-        isCurrent ? 'border-bergamot bg-monogram/40' : 'border-carta/15 hover:border-bergamot bg-caffe'
+        loc.preLaunch
+          ? 'border-bergamot/30 bg-caffe/40 opacity-70 cursor-not-allowed'
+          : isCurrent
+            ? 'border-bergamot bg-monogram/40'
+            : 'border-carta/15 hover:border-bergamot bg-caffe'
       }`}
     >
       <div className="grid grid-cols-[1fr_2fr] gap-4 items-stretch">
@@ -131,6 +136,11 @@ function LocationCard({ loc, isCurrent, onPick }: CardProps) {
             aria-hidden
           />
           <div className="absolute inset-0 bg-gradient-to-t from-caffe/40 to-transparent" aria-hidden />
+          {loc.preLaunch && (
+            <div className="absolute top-2 left-2 inline-flex items-center px-2 py-0.5 text-[10px] tracking-widest uppercase font-medium bg-bergamot text-caffe rounded-sm">
+              Pre-launch
+            </div>
+          )}
         </div>
         <div className="py-3 pr-4 flex flex-col justify-center text-carta">
           <h3 className="font-display text-2xl tracking-tight">{loc.shortName}</h3>
@@ -138,15 +148,21 @@ function LocationCard({ loc, isCurrent, onPick }: CardProps) {
             <MapPin size={12} aria-hidden />
             {loc.address.line1}
           </p>
-          <p className="mt-2 text-sm flex items-center gap-2">
-            <span className={status.open ? 'dot-open' : 'dot-closed'} aria-hidden />
-            <span className={status.open ? 'text-bergamot font-medium' : 'text-carta/60'}>
-              {status.message}
-            </span>
-          </p>
-          <p className="mt-1 text-xs text-carta/50 num">
-            Today {formatRange(loc.hours.monday)}
-          </p>
+          {loc.preLaunch ? (
+            <p className="mt-2 text-sm text-bergamot italic">Opening soon · ordering not yet available</p>
+          ) : (
+            <>
+              <p className="mt-2 text-sm flex items-center gap-2">
+                <span className={status.open ? 'dot-open' : 'dot-closed'} aria-hidden />
+                <span className={status.open ? 'text-bergamot font-medium' : 'text-carta/60'}>
+                  {status.message}
+                </span>
+              </p>
+              <p className="mt-1 text-xs text-carta/50 num">
+                Today {formatRange(loc.hours.monday)}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </button>

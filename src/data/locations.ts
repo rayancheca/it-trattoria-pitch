@@ -79,6 +79,12 @@ export interface Location {
   privateEvents: boolean;
   openDate?: string;        // ISO
   flagship?: boolean;
+  /**
+   * True if the location exists in Toast backend but is not yet surfaced
+   * publicly (no Toast checkout, no Uber Eats, no public photos). Per Agent A
+   * + Agent B findings, this applies to 5th Ave NYC as of June 2026.
+   */
+  preLaunch?: boolean;
 }
 
 // Hours pattern reused across most locations (7am - 10pm Mon-Sun)
@@ -246,6 +252,7 @@ export const LOCATIONS: Location[] = [
     catering: true,
     privateEvents: false,
     openDate: '2025-03-20',
+    preLaunch: true, // 5th Ave NYC — Toast backend has it, no public surface
   },
 ];
 
